@@ -1,3 +1,4 @@
+using System;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -41,8 +42,9 @@ public class PlayerMovementScript : MonoBehaviour
             myRidgidBody.linearVelocityX = 0;
         }
         if(Input.GetKeyDown(KeyCode.W) && isGrounded){
-            Vector3 currentScale = transform.localScale; 
-            myRidgidBody.linearVelocityY = jumpHeight;
+            float scaleFactor = (float)(transform.localScale.y/4.204167);
+            float scaledJumpHeight = (float)(jumpHeight * Math.Sqrt(scaleFactor));
+            myRidgidBody.linearVelocityY = scaledJumpHeight;
             isGrounded = false;
             animator.SetBool("isJumping", !isGrounded);
         }
