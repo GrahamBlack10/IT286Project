@@ -459,53 +459,11 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1 &1509834972 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4079736338124651580, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-  m_PrefabInstance: {fileID: 4555777096765053773}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &1509834973 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2719564349655288611, guid: 484071e9590f641718ca23237d741e7c, type: 3}
   m_PrefabInstance: {fileID: 4555777096765053773}
   m_PrefabAsset: {fileID: 0}
---- !u!70 &1509834979
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509834972}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.052130096, y: -0.24829993}
-  m_Size: {x: 0.49932227, y: 0.06419464}
-  m_Direction: 1
 --- !u!1001 &1748404193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -633,10 +591,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2719564349655288611, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 4e6b71cdaefdd944593df0615e644af7, type: 2}
+    - target: {fileID: 3104680088112795285, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: m_Color.b
+      value: 0.26415092
+      objectReference: {fileID: 0}
+    - target: {fileID: 3104680088112795285, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: m_Color.g
+      value: 0.26415092
+      objectReference: {fileID: 0}
+    - target: {fileID: 3104680088112795285, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: m_Color.r
+      value: 0.26415092
+      objectReference: {fileID: 0}
     - target: {fileID: 4079736338124651580, guid: 484071e9590f641718ca23237d741e7c, type: 3}
       propertyPath: m_Name
       value: Player
@@ -712,10 +678,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4079736338124651580, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1509834979}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 484071e9590f641718ca23237d741e7c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
