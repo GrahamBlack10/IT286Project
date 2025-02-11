@@ -41,6 +41,7 @@ public class PlayerMovementScript : MonoBehaviour
             myRidgidBody.linearVelocityX = 0;
         }
         if(Input.GetKeyDown(KeyCode.W) && isGrounded){
+            Vector3 currentScale = transform.localScale; 
             myRidgidBody.linearVelocityY = jumpHeight;
             isGrounded = false;
             animator.SetBool("isJumping", !isGrounded);
