@@ -4,11 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class PlayerInformationScript : MonoBehaviour
 {
+    public Animator animator;
     public const float maxHealth = 100;
     public float health = maxHealth;
     public const float maxPower = 100;
     public float power = maxPower;
     public bool isAlive = true;
+    private const double deathAnimationTime = 1.5;
+    private double count = 0;
+
+    public int closeRangeAttackPowerCost = 5;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,15 +23,31 @@ public class PlayerInformationScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(health <= 0){
-            isAlive = false;
+        if(health <= 0 || power <= 0){
+            setAliveToFalse();
             //add death animation
             //add death menu to restart
-            resetScene();
+            count += Time.deltaTime;
+            if(count >= deathAnimationTime){
+                resetScene();
+            }
         }
+    }
+
+    void setAliveToFalse(){
+        animator.SetBool("isAlive", false);
+        isAlive = false;
     }
 
     void resetScene(){
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void takeDamage(float amount){
+        health -= amount;
+    }
+
+    public void drainPower(float amount){
+        power -= amount;
     }
 }

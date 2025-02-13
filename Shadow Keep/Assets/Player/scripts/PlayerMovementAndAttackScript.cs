@@ -20,6 +20,7 @@ public class PlayerMovementScript : MonoBehaviour
     public Animator animator;
     public BoxCollider2D playerCollider;
     public CapsuleCollider2D groundCollider;
+    public PolygonCollider2D closeRangeAttackCollider;
     public PlayerInformationScript playerInformationScript;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -57,18 +58,26 @@ public class PlayerMovementScript : MonoBehaviour
                 if(attackType=="closeRangeAttack"){
                     animator.SetBool("closeRangeAttacking", false);
                     if(attackTimer >= closeRangeAttackAnimationLength + attackBuffer){
+                        //stop close range attack
                         isAttacking = false;
+                        closeRangeAttackCollider.enabled = false;
                         attackTimer = 0;
                     }
                 }
             }
             if(Input.GetMouseButtonDown(0) && !isAttacking && isGrounded){
+                //initiate close range attack
                 isAttacking = true;
+                closeRangeAttackCollider.enabled = true;
                 animator.SetBool("closeRangeAttacking", true);  
                 attackType = "closeRangeAttack";
+                playerInformationScript.drainPower(playerInformationScript.closeRangeAttackPowerCost);
             }
             animator.SetFloat("xVelocity", math.abs(myRidgidBody.linearVelocityX));
             animator.SetFloat("yVelocity", myRidgidBody.linearVelocityY);
+        }else{
+            myRidgidBody.linearVelocityX = 0;
+            myRidgidBody.linearVelocityY = 0;
         }
     }
 
@@ -87,14 +96,19 @@ public class PlayerMovementScript : MonoBehaviour
     private void flipPlayerColliders(){
         playerCollider.offset = new Vector2(playerCollider.offset.x*-1, playerCollider.offset.y);
         groundCollider.offset = new Vector2(groundCollider.offset.x*-1, groundCollider.offset.y);
+        closeRangeAttackCollider.offset = new Vector2(closeRangeAttackCollider.offset.x*-1, closeRangeAttackCollider.offset.y);
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
-        if (collision.IsTouching(groundCollider)){
+        if(collision.IsTouching(groundCollider)){
             isGrounded = true;
             animator.SetBool("isJumping", !isGrounded);
             if (collision.gameObject.CompareTag("Lava")){
                 playerInformationScript.health = 0;
+            }
+        }else if(collision.IsTouching(closeRangeAttackCollider)){
+            if(collision.gameObject.CompareTag("Enemy")){
+                //deal damage to enemy
             }
         }
     }
