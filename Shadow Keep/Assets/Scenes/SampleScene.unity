@@ -322,16 +322,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!70 &1173085211 stripped
-CapsuleCollider2D:
-  m_CorrespondingSourceObject: {fileID: 7314502854372070245, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-  m_PrefabInstance: {fileID: 2072340137}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &1173085214 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 5492349592508965365, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-  m_PrefabInstance: {fileID: 2072340137}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1748404193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -408,14 +398,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8235549207057396547, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-      propertyPath: groundCollider
-      value: 
-      objectReference: {fileID: 1173085211}
-    - target: {fileID: 8235549207057396547, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-      propertyPath: playerCollider
-      value: 
-      objectReference: {fileID: 1173085214}
     - target: {fileID: 9122527232891618882, guid: 484071e9590f641718ca23237d741e7c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.16
@@ -455,6 +437,10 @@ PrefabInstance:
     - target: {fileID: 9122527232891618882, guid: 484071e9590f641718ca23237d741e7c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122527232891618882, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

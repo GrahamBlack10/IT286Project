@@ -1,4 +1,5 @@
 using System;
+using System.Xml;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,13 +12,20 @@ public class PlayerMovementScript : MonoBehaviour
     public bool isAttacking = false;
     public double attackBuffer = 0.05;
     private bool isGrounded = true;
+    public bool healing = false;
+    public float healingPerSecond = 10;
+    private float healingCounter = 0;
+    public float timePerHealIcon = 1;
     private string attackType = "closeRangeAttack";
     private float attackTimer = 0;
     private string directionFacing = "right";
     private double closeRangeAttackAnimationLength = 0.45;
+    private double healLength = 5;
+    private double healCount = 0;
     public Rigidbody2D myRidgidBody;
     public SpriteRenderer mySprite;
     public Animator animator;
+    public GameObject healingIcon;
     public BoxCollider2D playerCollider;
     public CapsuleCollider2D groundCollider;
     public PolygonCollider2D closeRangeAttackCollider;
@@ -25,7 +33,9 @@ public class PlayerMovementScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        float scaleFactor = (float)(transform.localScale.y/4.204167);
+        horizontalMovementSpeed = (float)(horizontalMovementSpeed * Math.Sqrt(scaleFactor));
+        jumpHeight = (float)(jumpHeight * Math.Sqrt(scaleFactor));
     }
 
     // Update is called once per frame
@@ -46,11 +56,38 @@ public class PlayerMovementScript : MonoBehaviour
                 myRidgidBody.linearVelocityX = 0;
             }
             if(Input.GetKeyDown(KeyCode.W) && isGrounded){
-                float scaleFactor = (float)(transform.localScale.y/4.204167);
-                float scaledJumpHeight = (float)(jumpHeight * Math.Sqrt(scaleFactor));
-                myRidgidBody.linearVelocityY = scaledJumpHeight;
+                myRidgidBody.linearVelocityY = jumpHeight;
                 isGrounded = false;
                 animator.SetBool("isJumping", !isGrounded);
+            }
+            if(Input.GetKeyDown(KeyCode.Space) && !isAttacking && !healing){
+                //initializing healing
+                healing = true;
+                healingCounter = timePerHealIcon;
+                playerInformationScript.drainPower(playerInformationScript.healAbilityPowerCost);
+            }
+
+            if(healing){
+                //healing player over time and spawing heal icons
+                healingCounter += Time.deltaTime;
+                healCount += Time.deltaTime;
+                playerInformationScript.healPlayer(healingPerSecond*Time.deltaTime);
+                if(healingCounter >= timePerHealIcon){
+                    float playerWidth = playerCollider.size.x;
+                    float playerHeight = playerCollider.size.y;
+                    float xVal = UnityEngine.Random.Range(-playerWidth/2, playerWidth/2);
+                    //float yVal = UnityEngine.Random.Range(-playerHeight/2, playerHeight/4);
+                    float yVal = -playerHeight/2;
+                    healingCounter -= timePerHealIcon;
+                    GameObject newHealIcon = Instantiate(healingIcon, transform);
+                    newHealIcon.transform.localPosition = new Vector3(xVal, yVal, -1);
+                    newHealIcon.transform.localScale *= (float)(transform.localScale.x/4.204167);
+                }
+                if(healCount >= healLength){
+                    healCount = 0;
+                    healingCounter = timePerHealIcon;
+                    healing = false;
+                }
             }
 
             if(isAttacking){

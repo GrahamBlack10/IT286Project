@@ -55,9 +55,13 @@ MonoBehaviour:
   jumpHeight: 25
   isAttacking: 0
   attackBuffer: 0.05
+  healing: 0
+  healingPerSecond: 10
+  timePerHealIcon: 1
   myRidgidBody: {fileID: 2574388804705511358}
   mySprite: {fileID: 3104680088112795285}
   animator: {fileID: 2719564349655288611}
+  healingIcon: {fileID: 575925191364537489, guid: 55674eab82bfa4efe820aafafca5407b, type: 3}
   playerCollider: {fileID: 5492349592508965365}
   groundCollider: {fileID: 7314502854372070245}
   closeRangeAttackCollider: {fileID: 3970583191610507960}
@@ -262,9 +266,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 2719564349655288611}
+  playerMovementAndAttackScript: {fileID: 8235549207057396547}
   health: 100
   power: 100
+  powerRegenPerSecond: 5
   isAlive: 1
+  closeRangeAttackPowerCost: 5
+  healAbilityPowerCost: 25
 --- !u!60 &3970583191610507960
 PolygonCollider2D:
   m_ObjectHideFlags: 0
