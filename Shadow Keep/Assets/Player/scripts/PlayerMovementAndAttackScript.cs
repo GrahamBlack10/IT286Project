@@ -133,7 +133,13 @@ public class PlayerMovementScript : MonoBehaviour
     private void flipPlayerColliders(){
         playerCollider.offset = new Vector2(playerCollider.offset.x*-1, playerCollider.offset.y);
         groundCollider.offset = new Vector2(groundCollider.offset.x*-1, groundCollider.offset.y);
-        closeRangeAttackCollider.offset = new Vector2(closeRangeAttackCollider.offset.x*-1, closeRangeAttackCollider.offset.y);
+        //closeRangeAttackCollider.offset = new Vector2(closeRangeAttackCollider.offset.x*-1, closeRangeAttackCollider.offset.y);
+        Vector2[] points = closeRangeAttackCollider.points;
+        for (int i = 0; i < points.Length; i++)
+        {
+            points[i].x *= -1; // Flip each point horizontally
+        }
+        closeRangeAttackCollider.points = points;
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
