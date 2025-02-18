@@ -7,9 +7,10 @@ public class PlayerInformationScript : MonoBehaviour
     public Animator animator;
     public PlayerMovementScript playerMovementAndAttackScript;
     public const float maxHealth = 100;
-    public float health = maxHealth;
+    private float health = maxHealth;
     public const float maxPower = 100;
-    public float power = maxPower;
+    private float power = maxPower;
+    public const float attackDamage = 50;
     public float powerRegenPerSecond = 5;
     public bool isAlive = true;
     private const double deathAnimationTime = 1.5;
@@ -51,6 +52,10 @@ public class PlayerInformationScript : MonoBehaviour
         health -= amount;
     }
 
+    public void setHealth(float value){
+        health = value;
+    }
+
     public void drainPower(float amount){
         power -= amount;
     }
@@ -61,7 +66,6 @@ public class PlayerInformationScript : MonoBehaviour
             health = maxHealth;
         }
     }
-
     void regenPower(){
         if(!playerMovementAndAttackScript.isAttacking && !playerMovementAndAttackScript.healing){
             power += powerRegenPerSecond*Time.deltaTime;
@@ -69,5 +73,17 @@ public class PlayerInformationScript : MonoBehaviour
                 power = maxPower;
             }
         }
+    }
+
+    public float getAttackDamage(){
+        return attackDamage;
+    }
+
+    public float getHealth(){
+        return health;
+    }
+
+    public float getPower(){
+        return power;
     }
 }

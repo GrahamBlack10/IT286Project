@@ -147,7 +147,7 @@ public class PlayerMovementScript : MonoBehaviour
             isGrounded = true;
             animator.SetBool("isJumping", !isGrounded);
             if (collision.gameObject.CompareTag("Lava")){
-                playerInformationScript.health = 0;
+                playerInformationScript.setHealth(0);
             }
         }else if(collision.IsTouching(closeRangeAttackCollider)){
             if(collision.gameObject.CompareTag("Enemy")){
