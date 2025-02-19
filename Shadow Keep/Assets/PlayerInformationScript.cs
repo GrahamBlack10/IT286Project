@@ -10,7 +10,7 @@ public class PlayerInformationScript : MonoBehaviour
     private float health = maxHealth;
     public const float maxPower = 100;
     private float power = maxPower;
-    public const float attackDamage = 50;
+    public float attackDamage { get; private set; } = 50;
     public float powerRegenPerSecond = 5;
     public bool isAlive = true;
     private const double deathAnimationTime = 1.5;
