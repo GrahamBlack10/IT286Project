@@ -50,6 +50,7 @@ public class PlayerInformationScript : MonoBehaviour
 
     public void takeDamage(float amount){
         health -= amount;
+        playerMovementAndAttackScript.animator.SetTrigger("hit");
     }
 
     public void setHealth(float value){

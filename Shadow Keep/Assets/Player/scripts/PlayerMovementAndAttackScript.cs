@@ -55,7 +55,7 @@ public class PlayerMovementScript : MonoBehaviour
             }else{
                 myRidgidBody.linearVelocityX = 0;
             }
-            if(Input.GetKeyDown(KeyCode.W) && isGrounded){
+            if(Input.GetKeyDown(KeyCode.W) && isGrounded && !isAttacking){
                 myRidgidBody.linearVelocityY = jumpHeight;
                 isGrounded = false;
                 animator.SetBool("isJumping", !isGrounded);
