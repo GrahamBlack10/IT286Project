@@ -106,7 +106,7 @@ public class PlayerMovementScript : MonoBehaviour
                 //initiate close range attack
                 isAttacking = true;
                 closeRangeAttackCollider.enabled = true;
-                animator.SetBool("closeRangeAttacking", true);  
+                animator.SetTrigger("closeRangeAttack"); 
                 attackType = "closeRangeAttack";
                 playerInformationScript.drainPower(playerInformationScript.closeRangeAttackPowerCost);
             }
