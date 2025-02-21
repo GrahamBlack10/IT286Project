@@ -62,6 +62,7 @@ MonoBehaviour:
   mySprite: {fileID: 3104680088112795285}
   animator: {fileID: 2719564349655288611}
   healingIcon: {fileID: 575925191364537489, guid: 55674eab82bfa4efe820aafafca5407b, type: 3}
+  projectile: {fileID: 750908352678219028, guid: 9767adc26b1244630993a212422947d8, type: 3}
   playerCollider: {fileID: 5492349592508965365}
   groundCollider: {fileID: 7314502854372070245}
   closeRangeAttackCollider: {fileID: 3970583191610507960}
@@ -267,12 +268,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 2719564349655288611}
   playerMovementAndAttackScript: {fileID: 8235549207057396547}
-  health: 100
-  power: 100
   powerRegenPerSecond: 5
   isAlive: 1
   closeRangeAttackPowerCost: 5
   healAbilityPowerCost: 25
+  longRangeAttackPowerCost: 10
 --- !u!60 &3970583191610507960
 PolygonCollider2D:
   m_ObjectHideFlags: 0

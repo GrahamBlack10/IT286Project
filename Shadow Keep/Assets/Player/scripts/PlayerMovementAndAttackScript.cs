@@ -2,6 +2,7 @@ using System;
 using System.Xml;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,16 +17,15 @@ public class PlayerMovementScript : MonoBehaviour
     public float healingPerSecond = 10;
     private float healingCounter = 0;
     public float timePerHealIcon = 1;
-    private string attackType = "closeRangeAttack";
-    private float attackTimer = 0;
+    //private string attackType = "closeRangeAttack";
     private string directionFacing = "right";
-    private double closeRangeAttackAnimationLength = 0.45;
     private double healLength = 5;
     private double healCount = 0;
     public Rigidbody2D myRidgidBody;
     public SpriteRenderer mySprite;
     public Animator animator;
     public GameObject healingIcon;
+    public GameObject projectile;
     public BoxCollider2D playerCollider;
     public CapsuleCollider2D groundCollider;
     public PolygonCollider2D closeRangeAttackCollider;
@@ -89,32 +89,27 @@ public class PlayerMovementScript : MonoBehaviour
                     healing = false;
                 }
             }
-
-            if(isAttacking){
-                attackTimer += Time.deltaTime;
-                if(attackType=="closeRangeAttack"){
-                    animator.SetBool("closeRangeAttacking", false);
-                    if(attackTimer >= closeRangeAttackAnimationLength + attackBuffer){
-                        //stop close range attack
-                        isAttacking = false;
-                        closeRangeAttackCollider.enabled = false;
-                        attackTimer = 0;
-                    }
-                }
-            }
             if(Input.GetMouseButtonDown(0) && !isAttacking && isGrounded){
                 //initiate close range attack
                 isAttacking = true;
                 closeRangeAttackCollider.enabled = true;
                 animator.SetTrigger("closeRangeAttack"); 
-                attackType = "closeRangeAttack";
+                //attackType = "closeRangeAttack";
                 playerInformationScript.drainPower(playerInformationScript.closeRangeAttackPowerCost);
+            }
+            if(Input.GetMouseButtonDown(1) && !isAttacking){
+                //initiate long range attack
+                isAttacking = true;
+                animator.SetTrigger("longRangeAttack");
+                playerInformationScript.drainPower(playerInformationScript.longRangeAttackPowerCost);
+                animator.SetBool("isJumping", false);
             }
             animator.SetFloat("xVelocity", math.abs(myRidgidBody.linearVelocityX));
             animator.SetFloat("yVelocity", myRidgidBody.linearVelocityY);
         }else{
             myRidgidBody.linearVelocityX = 0;
-            myRidgidBody.linearVelocityY = 0;
+            //myRidgidBody.linearVelocityY = 0;
+            animator.SetBool("isJumping", false);
         }
     }
 
@@ -153,6 +148,33 @@ public class PlayerMovementScript : MonoBehaviour
             if(collision.gameObject.CompareTag("Enemy")){
                 //deal damage to enemy
             }
+        }
+    }
+
+    public void stopCloseRangeAttack(){
+        isAttacking = false;
+        closeRangeAttackCollider.enabled = false;
+    }
+
+    public void stopLongRangeAttack(){
+        isAttacking = false;
+        if(isGrounded == false){
+            animator.SetBool("isJumping", true);
+        }
+    }
+
+    public void instantiateProjectile(){
+        float scaleFactor = (float)(transform.localScale.y/4.204167);
+        float xVal = (float)0.1*scaleFactor;
+        float yVal = (float)0.1*scaleFactor;
+        if(directionFacing == "left"){
+            xVal = -xVal;
+        }
+        GameObject newProjectile = Instantiate(projectile, transform);
+        newProjectile.transform.localPosition = new Vector3(xVal, yVal, (float)-0.1492127);
+        if(directionFacing == "left"){
+            projectileScript projectileScript = newProjectile.GetComponent<projectileScript>();
+            projectileScript.setDirectionFacingToLeft();
         }
     }
 }
