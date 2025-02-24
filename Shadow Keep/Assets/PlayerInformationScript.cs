@@ -7,9 +7,11 @@ public class PlayerInformationScript : MonoBehaviour
     public Animator animator;
     public PlayerMovementScript playerMovementAndAttackScript;
     public const float maxHealth = 100;
-    public float health = maxHealth;
+    private float health = maxHealth;
     public const float maxPower = 100;
-    public float power = maxPower;
+    private float power = maxPower;
+    public float attackDamage { get; private set; } = 50;
+    public int projectileDamage = 50;
     public float powerRegenPerSecond = 5;
     public bool isAlive = true;
     private const double deathAnimationTime = 1.5;
@@ -17,6 +19,7 @@ public class PlayerInformationScript : MonoBehaviour
 
     public int closeRangeAttackPowerCost = 5;
     public int healAbilityPowerCost = 25;
+    public int longRangeAttackPowerCost = 10;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -49,6 +52,11 @@ public class PlayerInformationScript : MonoBehaviour
 
     public void takeDamage(float amount){
         health -= amount;
+        playerMovementAndAttackScript.animator.SetTrigger("hit");
+    }
+
+    public void setHealth(float value){
+        health = value;
     }
 
     public void drainPower(float amount){
@@ -61,7 +69,6 @@ public class PlayerInformationScript : MonoBehaviour
             health = maxHealth;
         }
     }
-
     void regenPower(){
         if(!playerMovementAndAttackScript.isAttacking && !playerMovementAndAttackScript.healing){
             power += powerRegenPerSecond*Time.deltaTime;
@@ -69,5 +76,21 @@ public class PlayerInformationScript : MonoBehaviour
                 power = maxPower;
             }
         }
+    }
+
+    public float getAttackDamage(){
+        return attackDamage;
+    }
+
+    public int getProjectileDamage(){
+        return projectileDamage;
+    }
+
+    public float getHealth(){
+        return health;
+    }
+
+    public float getPower(){
+        return power;
     }
 }

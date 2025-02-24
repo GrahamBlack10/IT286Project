@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ef22fe63bc2a148758796e6bb597e9d8
+guid: 1b412325fa8d44b5cbf9984ebc420a81
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2727075611835513564
-    second: Healing plus_0
+      213: 105169053199506356
+    second: projectile_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Healing plus_0
+      name: projectile_0
       rect:
         serializedVersion: 2
-        x: 26
-        y: 25
-        width: 161
-        height: 160
+        x: 3
+        y: 0
+        width: 60
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cda361ff1d488d520800000000000000
-      internalID: 2727075611835513564
+      spriteID: 4bb125952b2a57100800000000000000
+      internalID: 105169053199506356
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Healing plus_0: 2727075611835513564
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
