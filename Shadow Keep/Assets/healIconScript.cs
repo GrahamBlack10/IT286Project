@@ -9,7 +9,9 @@ public class healIconScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        GameObject player = GameObject.Find("Player");
+        float scaleFactor = (float)(player.transform.localScale.x/4.204167);
+        velocity *= scaleFactor;
     }
 
     // Update is called once per frame
