@@ -76,12 +76,10 @@ public class PlayerMovementScript : MonoBehaviour
                     float playerWidth = playerCollider.size.x;
                     float playerHeight = playerCollider.size.y;
                     float xVal = UnityEngine.Random.Range(-playerWidth/2, playerWidth/2);
-                    //float yVal = UnityEngine.Random.Range(-playerHeight/2, playerHeight/4);
                     float yVal = -playerHeight/2;
                     healingCounter -= timePerHealIcon;
                     GameObject newHealIcon = Instantiate(healingIcon, transform);
                     newHealIcon.transform.localPosition = new Vector3(xVal, yVal, -1);
-                    newHealIcon.transform.localScale *= (float)(transform.localScale.x/4.204167);
                 }
                 if(healCount >= healLength){
                     healCount = 0;
@@ -166,7 +164,7 @@ public class PlayerMovementScript : MonoBehaviour
     public void instantiateProjectile(){
         float scaleFactor = (float)(transform.localScale.y/4.204167);
         float xVal = (float)0.1*scaleFactor;
-        float yVal = (float)0.1*scaleFactor;
+        float yVal = (float)0.175*scaleFactor;
         if(directionFacing == "left"){
             xVal = -xVal;
         }

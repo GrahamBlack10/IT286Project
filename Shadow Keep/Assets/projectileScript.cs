@@ -10,6 +10,7 @@ public class projectileScript : MonoBehaviour
     private float movementSpeed = 20;
     private float lifeSpan = 3;
     private float timer = 0;
+    private bool scaled = false;
     public PlayerInformationScript playerInformationScript;
     public int projectileDamage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +25,7 @@ public class projectileScript : MonoBehaviour
         }
         playerInformationScript = GameObject.Find("Player").GetComponent<PlayerInformationScript>();
         projectileDamage = playerInformationScript.getProjectileDamage();
+        scaled = true;
     }
 
     // Update is called once per frame
@@ -59,7 +61,7 @@ public class projectileScript : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
-        if(!collision.gameObject.CompareTag("Enemy") && !collision.gameObject.CompareTag("Player")){
+        if(!collision.gameObject.CompareTag("Enemy") && !collision.gameObject.CompareTag("Player") && scaled){
             Destroy(gameObject);
         }
     }
