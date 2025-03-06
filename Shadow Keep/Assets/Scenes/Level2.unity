@@ -10963,6 +10963,63 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.8822}
   m_EdgeRadius: 0
+--- !u!1001 &2116325135
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7260075987687509591, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 76.32725
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260075987687509591, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.108403
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260075987687509591, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0045052473
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260075987687509591, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260075987687509591, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260075987687509591, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260075987687509591, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260075987687509591, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260075987687509591, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7260075987687509591, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8821803548931361616, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: m_Name
+      value: Evil-Wizard
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a881b16796a22f841b63628151fedf95, type: 3}
 --- !u!1 &2142908315
 GameObject:
   m_ObjectHideFlags: 0
@@ -11176,3 +11233,4 @@ SceneRoots:
   - {fileID: 1376712627}
   - {fileID: 558349288}
   - {fileID: 49612555}
+  - {fileID: 2116325135}
