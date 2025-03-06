@@ -72,7 +72,7 @@ public class projectileScript : MonoBehaviour
         Destroy(gameObject);
     }
 
-   private void OnTriggerEnter2D(Collider2D collision)
+  private void OnTriggerEnter2D(Collider2D collision)
 {
     if (collision.gameObject.CompareTag("Enemy"))
     {
@@ -88,6 +88,22 @@ public class projectileScript : MonoBehaviour
             {
                 enemy2.TakeDamage(projectileDamage);
             }
+            else
+            {
+                Skeleton_Stats enemy3 = collision.gameObject.GetComponent<Skeleton_Stats>();
+                if (enemy3 != null)
+                {
+                    enemy3.TakeDamage(projectileDamage);
+                }
+                else
+                {
+                    FlyingEye enemy4 = collision.gameObject.GetComponent<FlyingEye>();
+                    if (enemy4 != null)
+                    {
+                        enemy4.TakeDamage(projectileDamage);
+                    }
+                }
+            }
         }
         Destroy(gameObject);
     }
@@ -96,5 +112,6 @@ public class projectileScript : MonoBehaviour
         Destroy(gameObject);
     }
 }
+
 
 }
