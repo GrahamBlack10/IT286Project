@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Mini_Boss_1 : MonoBehaviour
 {
-    public int maxHealth = 500;
+    public int maxHealth = 300;
     private int currentHealth;
     public int attackDamage = 50;
     public int defense = 10;
@@ -101,7 +101,7 @@ public class Mini_Boss_1 : MonoBehaviour
         else
         {
             isPlayerNearby = false;
-            animator.SetBool("isWalking", false);
+            animator.SetBool("Walking", false);
         }
 
         // Attack player when within attack range
@@ -239,7 +239,7 @@ public class Mini_Boss_1 : MonoBehaviour
     {
         if (player != null && isPlayerNearby)
         {
-            animator.SetBool("isWalking", true);
+            animator.SetBool("Walking", true);
             Vector3 targetPosition = new Vector3(player.position.x, transform.position.y, transform.position.z);
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
 
@@ -279,7 +279,7 @@ public class Mini_Boss_1 : MonoBehaviour
         animator.SetTrigger("Death");
         Debug.Log("Mini-Boss has died.");
 
-        animator.SetBool("isWalking", false);
+        animator.SetBool("Walking", false);
         animator.ResetTrigger("Attack");
         animator.ResetTrigger("Cast");
 
