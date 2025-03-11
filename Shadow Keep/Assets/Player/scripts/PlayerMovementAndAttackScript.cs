@@ -1,8 +1,6 @@
 using System;
 using System.Xml;
 using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,10 +12,12 @@ public class PlayerMovementScript : MonoBehaviour
     public double attackBuffer = 0.05;
     private bool isGrounded = true;
     public bool healing = false;
+    private bool doubleJumpActive = true;
+    private int maxJumps = 2;
+    private int currentJumps = 0;
     public float healingPerSecond = 10;
     private float healingCounter = 0;
     public float timePerHealIcon = 1;
-    //private string attackType = "closeRangeAttack";
     private string directionFacing = "right";
     private double healLength = 5;
     private double healCount = 0;
@@ -55,10 +55,13 @@ public class PlayerMovementScript : MonoBehaviour
             }else{
                 myRidgidBody.linearVelocityX = 0;
             }
-            if(Input.GetKeyDown(KeyCode.W) && isGrounded && !isAttacking){
-                myRidgidBody.linearVelocityY = jumpHeight;
-                isGrounded = false;
-                animator.SetBool("isJumping", !isGrounded);
+            if(Input.GetKeyDown(KeyCode.W)){
+                if(isGrounded && !isAttacking || (doubleJumpActive && currentJumps < maxJumps)){
+                    myRidgidBody.linearVelocityY = jumpHeight;
+                    isGrounded = false;
+                    animator.SetBool("isJumping", !isGrounded);
+                    currentJumps++;
+                }
             }
             if(Input.GetKeyDown(KeyCode.Space) && !isAttacking && !healing){
                 //initializing healing
@@ -138,6 +141,7 @@ public class PlayerMovementScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision){
         if(collision.IsTouching(groundCollider)){
             isGrounded = true;
+            currentJumps = 0;
             animator.SetBool("isJumping", !isGrounded);
             if (collision.gameObject.CompareTag("Lava")){
                 playerInformationScript.setHealth(0);
