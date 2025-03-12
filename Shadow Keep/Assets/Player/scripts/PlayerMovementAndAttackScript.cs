@@ -61,6 +61,9 @@ public class PlayerMovementScript : MonoBehaviour
                     isGrounded = false;
                     animator.SetBool("isJumping", !isGrounded);
                     currentJumps++;
+                    if(currentJumps >= 2){
+                        playerInformationScript.drainPower(playerInformationScript.doubleJumpPowerCost);
+                    }
                 }
             }
             if(Input.GetKeyDown(KeyCode.Space) && !isAttacking && !healing){
