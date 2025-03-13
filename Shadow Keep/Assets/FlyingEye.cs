@@ -10,7 +10,7 @@ public class FlyingEye : MonoBehaviour
     public float detectionRange = 6.0f; // Flying Eye detects player within this range
     public float attackRange = 2.5f; // Flying Eye attacks only when this close
     public float attackCooldown = 1.0f;
-    public float hoverHeight = 2.0f; // ✅ Flying Eye maintains this height relative to the player
+    public float hoverHeight = 2.0f; // Maintains this height relative to the player
     private float lastAttackTime;
     private bool isAttacking = false;
     private bool isTakingDamage = false;
@@ -37,7 +37,7 @@ public class FlyingEye : MonoBehaviour
         // Disable gravity so the enemy floats
         if (rb != null)
         {
-            rb.gravityScale = 0; // ✅ Removes gravity effect so it can hover
+            rb.gravityScale = 0; // Removes gravity effect so it can hover
             rb.freezeRotation = true;
         }
 
@@ -66,7 +66,7 @@ public class FlyingEye : MonoBehaviour
         }
         else
         {
-            detectionCollider.isTrigger = true; // ✅ Ensure detection collider is a trigger
+            detectionCollider.isTrigger = true; // Ensure detection collider is a trigger
         }
 
         GameObject playerObj = GameObject.Find("Player");
@@ -89,11 +89,20 @@ public class FlyingEye : MonoBehaviour
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        // ✅ Detect player when they're within the detection range
+        // Detect player when they're within the detection range
         if (distanceToPlayer <= detectionRange)
         {
             isPlayerNearby = true;
-            HoverTowardsPlayer(); // ✅ Move towards the player in both X and Y directions
+            // Dive if the player is very close, otherwise hover
+            if (distanceToPlayer <= attackRange * 2)  // Tweak this threshold as needed
+            {
+                DiveTowardsPlayer();
+            }
+            else
+            {
+                animator.SetBool("isDiving", false);
+                HoverTowardsPlayer();
+            }
         }
         else
         {
@@ -101,7 +110,7 @@ public class FlyingEye : MonoBehaviour
             animator.SetBool("isFlying", false);
         }
 
-        // ✅ Attack when player is close enough
+        // Attack when the player is close enough
         if (isPlayerNearby && distanceToPlayer <= attackRange && !isAttacking)
         {
             AttackPlayer();
@@ -114,16 +123,45 @@ public class FlyingEye : MonoBehaviour
 
         animator.SetBool("isFlying", true);
 
-        // Move towards the player in X & Y directions
+        // Move towards the player's position with a hover offset
         Vector3 targetPosition = new Vector3(
-            player.position.x, 
-            player.position.y + hoverHeight, // ✅ Adjust height relative to player
+            player.position.x,
+            player.position.y + hoverHeight, // maintain hover height
             transform.position.z
         );
 
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
 
-        // Flip sprite based on direction
+        // Flip sprite based on horizontal direction
+        if ((player.position.x < transform.position.x && transform.localScale.x > 0) ||
+            (player.position.x > transform.position.x && transform.localScale.x < 0))
+        {
+            transform.localScale = new Vector3(
+                Mathf.Abs(transform.localScale.x) * (player.position.x < transform.position.x ? -1 : 1),
+                transform.localScale.y,
+                transform.localScale.z
+            );
+        }
+    }
+
+    private void DiveTowardsPlayer()
+    {
+        if (player == null) return;
+
+        animator.SetBool("isDiving", true); // Optionally trigger a dive animation
+
+        // Target the player's actual position (no hover offset)
+        Vector3 targetPosition = new Vector3(
+            player.position.x,
+            player.position.y,
+            transform.position.z
+        );
+
+        // Increase speed during the dive to simulate a fast descent
+        float diveSpeed = movementSpeed * 1.5f;
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, diveSpeed * Time.deltaTime);
+
+        // Flip sprite based on horizontal direction
         if ((player.position.x < transform.position.x && transform.localScale.x > 0) ||
             (player.position.x > transform.position.x && transform.localScale.x < 0))
         {
@@ -143,7 +181,7 @@ public class FlyingEye : MonoBehaviour
         lastAttackTime = Time.time;
         animator.SetTrigger("attack");
 
-        Invoke(nameof(EnableAttackCollider), 0.2f); 
+        Invoke(nameof(EnableAttackCollider), 0.2f);
         Invoke(nameof(DisableAttackCollider), 0.5f);
         Invoke(nameof(ResetAttack), attackCooldown);
     }

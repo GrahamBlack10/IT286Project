@@ -20,6 +20,7 @@ public class PlayerInformationScript : MonoBehaviour
     public int closeRangeAttackPowerCost = 5;
     public int healAbilityPowerCost = 25;
     public int longRangeAttackPowerCost = 10;
+    public int doubleJumpPowerCost = 5;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,15 +30,15 @@ public class PlayerInformationScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        regenPower();
         if(health <= 0 || power <= 0){
             setAliveToFalse();
-            //add death animation
             //add death menu to restart
             count += Time.deltaTime;
             if(count >= deathAnimationTime){
                 resetScene();
             }
+        }else{
+            regenPower();
         }
     }
 
