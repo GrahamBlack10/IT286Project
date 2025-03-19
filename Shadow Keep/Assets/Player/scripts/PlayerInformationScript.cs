@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerInformationScript : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class PlayerInformationScript : MonoBehaviour
     public PlayerMovementScript playerMovementAndAttackScript;
     public const float maxHealth = 100;
     private float health = maxHealth;
+    [SerializeField] private Image _healthBarFill;
+    [SerializeField] private Image _powerBarFill;
     public const float maxPower = 100;
     private float power = maxPower;
     public float attackDamage { get; private set; } = 50;
@@ -39,6 +42,8 @@ public class PlayerInformationScript : MonoBehaviour
             }
         }else{
             regenPower();
+            updatePowerBar();
+            updateHealthBar();
         }
     }
 
@@ -54,26 +59,76 @@ public class PlayerInformationScript : MonoBehaviour
     public void takeDamage(float amount){
         health -= amount;
         playerMovementAndAttackScript.animator.SetTrigger("hit");
+        updateHealthBar();
     }
 
     public void setHealth(float value){
         health = value;
+        updateHealthBar();
     }
-
+    //update health bar after taking damage
+    public void updateHealthBar()
+    {
+        _healthBarFill.fillAmount = health / maxHealth;
+        //make gradient color
+        if (health > maxHealth / 2)
+        {
+            _healthBarFill.color = Color.green;
+        }
+        else if (health > maxHealth / 4)
+        {
+            _healthBarFill.color = Color.yellow;
+        }
+        else
+        {
+            _healthBarFill.color = Color.red;
+        }
+    }
     public void drainPower(float amount){
         power -= amount;
+        updatePowerBar();
+        // if power is less than 0, set it to 0 and set the health to 0 and update the health bar
+        if (power < 0)
+        {
+            power = 0;
+            setHealth(0);
+            updateHealthBar();
+        }
+
     }
 
+    //update power bar after draining power
+    public void updatePowerBar()
+    {
+        _powerBarFill.fillAmount = power / maxPower;
+        // make gradient color 
+        if (power > maxPower / 2)
+        {
+            _powerBarFill.color = Color.cyan;
+        }
+        else if (power > maxPower / 4)
+        {
+            _powerBarFill.color = Color.yellow;
+        }
+        else
+        {
+            _powerBarFill.color = Color.red;
+        }
+
+
+    }
     public void healPlayer(float amount){
         health += amount;
-        if(health > maxHealth){
+        updateHealthBar();
+        if (health > maxHealth){
             health = maxHealth;
         }
     }
     void regenPower(){
         if(!playerMovementAndAttackScript.isAttacking && !playerMovementAndAttackScript.healing){
             power += powerRegenPerSecond*Time.deltaTime;
-            if(power > maxPower){
+            updatePowerBar();
+            if (power > maxPower){
                 power = maxPower;
             }
         }

@@ -3,6 +3,7 @@ using System.Xml;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerMovementScript : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class PlayerMovementScript : MonoBehaviour
     public CapsuleCollider2D groundCollider;
     public PolygonCollider2D closeRangeAttackCollider;
     public PlayerInformationScript playerInformationScript;
+    [SerializeField] private Image _healthBarFill;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -149,7 +151,8 @@ public class PlayerMovementScript : MonoBehaviour
             if (collision.gameObject.CompareTag("Lava")){
                 playerInformationScript.setHealth(0);
             }
-        }else if(collision.IsTouching(closeRangeAttackCollider)){
+        }
+        else if(collision.IsTouching(closeRangeAttackCollider)){
             if(collision.gameObject.CompareTag("Enemy")){
                 //deal damage to enemy
             }
