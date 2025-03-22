@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      rock_black_1 - Crack_0: -5539968321041724238
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
