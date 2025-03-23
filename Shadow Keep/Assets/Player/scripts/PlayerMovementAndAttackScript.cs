@@ -58,19 +58,21 @@ public class PlayerMovementScript : MonoBehaviour
                 myRidgidBody.linearVelocityX = 0;
             }
             if(Input.GetKeyDown(KeyCode.W)){
-                if(isGrounded && !isAttacking || (doubleJumpActive && currentJumps < maxJumps)){
+                if(isGrounded && !isAttacking || (doubleJumpActive && currentJumps < maxJumps && !playerInformationScript.doubleJumpUsed)){
                     myRidgidBody.linearVelocityY = jumpHeight;
                     isGrounded = false;
                     animator.SetBool("isJumping", !isGrounded);
                     currentJumps++;
                     if(currentJumps >= 2){
                         playerInformationScript.drainPower(playerInformationScript.doubleJumpPowerCost);
+                        playerInformationScript.doubleJumpUsed = true;
                     }
                 }
             }
-            if(Input.GetKeyDown(KeyCode.Space) && !isAttacking && !healing){
+            if(Input.GetKeyDown(KeyCode.Space) && !isAttacking && !healing && !playerInformationScript.healAbilityUsed){
                 //initializing healing
                 healing = true;
+                playerInformationScript.healAbilityUsed = true;
                 healingCounter = timePerHealIcon;
                 playerInformationScript.drainPower(playerInformationScript.healAbilityPowerCost);
             }
@@ -95,17 +97,19 @@ public class PlayerMovementScript : MonoBehaviour
                     healing = false;
                 }
             }
-            if(Input.GetMouseButtonDown(0) && !isAttacking && isGrounded){
+            if(Input.GetMouseButtonDown(0) && !isAttacking && isGrounded && !playerInformationScript.closeRangeAttackUsed){
                 //initiate close range attack
                 isAttacking = true;
+                playerInformationScript.closeRangeAttackUsed = true;
                 closeRangeAttackCollider.enabled = true;
                 animator.SetTrigger("closeRangeAttack"); 
                 //attackType = "closeRangeAttack";
                 playerInformationScript.drainPower(playerInformationScript.closeRangeAttackPowerCost);
             }
-            if(Input.GetMouseButtonDown(1) && !isAttacking){
+            if(Input.GetMouseButtonDown(1) && !isAttacking && !playerInformationScript.longRangeAttackUsed){
                 //initiate long range attack
                 isAttacking = true;
+                playerInformationScript.longRangeAttackUsed = true;
                 animator.SetTrigger("longRangeAttack");
                 playerInformationScript.drainPower(playerInformationScript.longRangeAttackPowerCost);
                 animator.SetBool("isJumping", false);

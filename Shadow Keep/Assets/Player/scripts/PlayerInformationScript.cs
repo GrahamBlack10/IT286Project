@@ -24,6 +24,22 @@ public class PlayerInformationScript : MonoBehaviour
     public int healAbilityPowerCost = 25;
     public int longRangeAttackPowerCost = 10;
     public int doubleJumpPowerCost = 5;
+
+    public bool closeRangeAttackUsed = false;
+    public int closeRangeAttackCoolDown = 1;
+    public double closeRangeTimer = 0;
+
+    public bool longRangeAttackUsed = false;
+    public int longRangeAttackCoolDown = 1;
+    public double longRangeAttackTimer = 0;
+
+    public bool healAbilityUsed = false;
+    public int healAbilityCoolDown = 7;
+    public double healAbilityTimer = 0;
+
+    public bool doubleJumpUsed = false;
+    public int doubleJumpCoolDown = 2;
+    public double doubleJumpTimer = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,6 +60,36 @@ public class PlayerInformationScript : MonoBehaviour
             regenPower();
             updatePowerBar();
             updateHealthBar();
+        }
+
+        //ability cool down manegement
+        if(closeRangeAttackUsed){
+            closeRangeTimer += Time.deltaTime;
+            if(closeRangeTimer >= closeRangeAttackCoolDown){
+                closeRangeTimer = 0;
+                closeRangeAttackUsed = false;
+            }
+        }
+        if(longRangeAttackUsed){
+            longRangeAttackTimer += Time.deltaTime;
+            if(longRangeAttackTimer >= longRangeAttackCoolDown){
+                longRangeAttackTimer = 0;
+                longRangeAttackUsed = false;
+            }
+        }
+        if(healAbilityUsed){
+            healAbilityTimer += Time.deltaTime;
+            if(healAbilityTimer >= healAbilityCoolDown){
+                healAbilityTimer = 0;
+                healAbilityUsed = false;
+            }
+        }
+        if(doubleJumpUsed){
+            doubleJumpTimer += Time.deltaTime;
+            if(doubleJumpTimer >= doubleJumpCoolDown){
+                doubleJumpTimer = 0;
+                doubleJumpUsed = false;
+            }
         }
     }
 
