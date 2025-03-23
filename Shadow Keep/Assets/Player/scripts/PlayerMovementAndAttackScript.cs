@@ -30,8 +30,12 @@ public class PlayerMovementScript : MonoBehaviour
     public BoxCollider2D playerCollider;
     public CapsuleCollider2D groundCollider;
     public PolygonCollider2D closeRangeAttackCollider;
+    public PhysicsMaterial2D wallSlideMaterial;
+    public PhysicsMaterial2D slipperyMaterial;
     public PlayerInformationScript playerInformationScript;
     [SerializeField] private Image _healthBarFill;
+
+    private bool wallSlideActive = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -116,6 +120,13 @@ public class PlayerMovementScript : MonoBehaviour
             }
             animator.SetFloat("xVelocity", math.abs(myRidgidBody.linearVelocityX));
             animator.SetFloat("yVelocity", myRidgidBody.linearVelocityY);
+
+            //wall slide material swap
+            if(myRidgidBody.linearVelocityY >= -1*transform.localScale.y){
+                setWallClimbState(false);
+            }else{
+                setWallClimbState(true);
+            }
         }else{
             myRidgidBody.linearVelocityX = 0;
             //myRidgidBody.linearVelocityY = 0;
@@ -187,6 +198,16 @@ public class PlayerMovementScript : MonoBehaviour
         if(directionFacing == "left"){
             projectileScript projectileScript = newProjectile.GetComponent<projectileScript>();
             projectileScript.setDirectionFacingToLeft();
+        }
+    }
+
+    private void setWallClimbState(bool value){
+        if(value && wallSlideActive==false){
+            wallSlideActive = true;
+            playerCollider.sharedMaterial = wallSlideMaterial;
+        }else if(value==false && wallSlideActive==true){
+            wallSlideActive = false;
+            playerCollider.sharedMaterial = slipperyMaterial;
         }
     }
 }

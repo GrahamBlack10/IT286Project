@@ -66,7 +66,10 @@ MonoBehaviour:
   playerCollider: {fileID: 5492349592508965365}
   groundCollider: {fileID: 7314502854372070245}
   closeRangeAttackCollider: {fileID: 3970583191610507960}
+  wallSlideMaterial: {fileID: 6200000, guid: 10ff7b24e8ae64e20b20861bc891252e, type: 2}
+  slipperyMaterial: {fileID: 6200000, guid: 38709dde69149400e9688584dc325627, type: 2}
   playerInformationScript: {fileID: 918559429178042349}
+  _healthBarFill: {fileID: 0}
 --- !u!50 &2574388804705511358
 Rigidbody2D:
   serializedVersion: 5
@@ -104,7 +107,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 38709dde69149400e9688584dc325627, type: 2}
+  m_Material: {fileID: 6200000, guid: 10ff7b24e8ae64e20b20861bc891252e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -268,11 +271,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 2719564349655288611}
   playerMovementAndAttackScript: {fileID: 8235549207057396547}
+  _healthBarFill: {fileID: 0}
+  _powerBarFill: {fileID: 0}
+  projectileDamage: 50
   powerRegenPerSecond: 5
   isAlive: 1
   closeRangeAttackPowerCost: 5
   healAbilityPowerCost: 25
   longRangeAttackPowerCost: 10
+  doubleJumpPowerCost: 5
+  closeRangeAttackUsed: 0
+  closeRangeAttackCoolDown: 1
+  closeRangeTimer: 0
+  longRangeAttackUsed: 0
+  longRangeAttackCoolDown: 1
+  longRangeAttackTimer: 0
+  healAbilityUsed: 0
+  healAbilityCoolDown: 7
+  healAbilityTimer: 0
+  doubleJumpUsed: 0
+  doubleJumpCoolDown: 2
+  doubleJumpTimer: 0
 --- !u!60 &3970583191610507960
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -280,7 +299,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4079736338124651580}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}

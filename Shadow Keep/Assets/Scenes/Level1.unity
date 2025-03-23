@@ -4324,16 +4324,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &1423312824 stripped
-CapsuleCollider2D:
-  m_CorrespondingSourceObject: {fileID: 7314502854372070245, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-  m_PrefabInstance: {fileID: 1967060961}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &1423312827 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 5492349592508965365, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-  m_PrefabInstance: {fileID: 1967060961}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1460099600
 GameObject:
   m_ObjectHideFlags: 0
@@ -5839,10 +5829,6 @@ PrefabInstance:
       propertyPath: _healthBarFill
       value: 
       objectReference: {fileID: 1852385801}
-    - target: {fileID: 3970583191610507960, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4079736338124651580, guid: 484071e9590f641718ca23237d741e7c, type: 3}
       propertyPath: m_Name
       value: Player
@@ -5851,14 +5837,6 @@ PrefabInstance:
       propertyPath: _healthBarFill
       value: 
       objectReference: {fileID: 1852385801}
-    - target: {fileID: 8235549207057396547, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-      propertyPath: groundCollider
-      value: 
-      objectReference: {fileID: 1423312824}
-    - target: {fileID: 8235549207057396547, guid: 484071e9590f641718ca23237d741e7c, type: 3}
-      propertyPath: playerCollider
-      value: 
-      objectReference: {fileID: 1423312827}
     - target: {fileID: 9122527232891618882, guid: 484071e9590f641718ca23237d741e7c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.5
