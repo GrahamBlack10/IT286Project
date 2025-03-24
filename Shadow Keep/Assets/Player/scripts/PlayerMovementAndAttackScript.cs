@@ -3,6 +3,7 @@ using System.Xml;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerMovementScript : MonoBehaviour
 {
@@ -29,7 +30,12 @@ public class PlayerMovementScript : MonoBehaviour
     public BoxCollider2D playerCollider;
     public CapsuleCollider2D groundCollider;
     public PolygonCollider2D closeRangeAttackCollider;
+    public PhysicsMaterial2D wallSlideMaterial;
+    public PhysicsMaterial2D slipperyMaterial;
     public PlayerInformationScript playerInformationScript;
+    [SerializeField] private Image _healthBarFill;
+
+    private bool wallSlideActive = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -56,19 +62,21 @@ public class PlayerMovementScript : MonoBehaviour
                 myRidgidBody.linearVelocityX = 0;
             }
             if(Input.GetKeyDown(KeyCode.W)){
-                if(isGrounded && !isAttacking || (doubleJumpActive && currentJumps < maxJumps)){
+                if(isGrounded && !isAttacking || (doubleJumpActive && currentJumps < maxJumps && !playerInformationScript.doubleJumpUsed)){
                     myRidgidBody.linearVelocityY = jumpHeight;
                     isGrounded = false;
                     animator.SetBool("isJumping", !isGrounded);
                     currentJumps++;
                     if(currentJumps >= 2){
                         playerInformationScript.drainPower(playerInformationScript.doubleJumpPowerCost);
+                        playerInformationScript.doubleJumpUsed = true;
                     }
                 }
             }
-            if(Input.GetKeyDown(KeyCode.Space) && !isAttacking && !healing){
+            if(Input.GetKeyDown(KeyCode.Space) && !isAttacking && !healing && !playerInformationScript.healAbilityUsed){
                 //initializing healing
                 healing = true;
+                playerInformationScript.healAbilityUsed = true;
                 healingCounter = timePerHealIcon;
                 playerInformationScript.drainPower(playerInformationScript.healAbilityPowerCost);
             }
@@ -93,23 +101,32 @@ public class PlayerMovementScript : MonoBehaviour
                     healing = false;
                 }
             }
-            if(Input.GetMouseButtonDown(0) && !isAttacking && isGrounded){
+            if(Input.GetMouseButtonDown(0) && !isAttacking && isGrounded && !playerInformationScript.closeRangeAttackUsed){
                 //initiate close range attack
                 isAttacking = true;
+                playerInformationScript.closeRangeAttackUsed = true;
                 closeRangeAttackCollider.enabled = true;
                 animator.SetTrigger("closeRangeAttack"); 
                 //attackType = "closeRangeAttack";
                 playerInformationScript.drainPower(playerInformationScript.closeRangeAttackPowerCost);
             }
-            if(Input.GetMouseButtonDown(1) && !isAttacking){
+            if(Input.GetMouseButtonDown(1) && !isAttacking && !playerInformationScript.longRangeAttackUsed){
                 //initiate long range attack
                 isAttacking = true;
+                playerInformationScript.longRangeAttackUsed = true;
                 animator.SetTrigger("longRangeAttack");
                 playerInformationScript.drainPower(playerInformationScript.longRangeAttackPowerCost);
                 animator.SetBool("isJumping", false);
             }
             animator.SetFloat("xVelocity", math.abs(myRidgidBody.linearVelocityX));
             animator.SetFloat("yVelocity", myRidgidBody.linearVelocityY);
+
+            //wall slide material swap
+            if(myRidgidBody.linearVelocityY >= -1*transform.localScale.y){
+                setWallClimbState(false);
+            }else{
+                setWallClimbState(true);
+            }
         }else{
             myRidgidBody.linearVelocityX = 0;
             //myRidgidBody.linearVelocityY = 0;
@@ -149,7 +166,8 @@ public class PlayerMovementScript : MonoBehaviour
             if (collision.gameObject.CompareTag("Lava")){
                 playerInformationScript.setHealth(0);
             }
-        }else if(collision.IsTouching(closeRangeAttackCollider)){
+        }
+        else if(collision.IsTouching(closeRangeAttackCollider)){
             if(collision.gameObject.CompareTag("Enemy")){
                 //deal damage to enemy
             }
@@ -180,6 +198,16 @@ public class PlayerMovementScript : MonoBehaviour
         if(directionFacing == "left"){
             projectileScript projectileScript = newProjectile.GetComponent<projectileScript>();
             projectileScript.setDirectionFacingToLeft();
+        }
+    }
+
+    private void setWallClimbState(bool value){
+        if(value && wallSlideActive==false){
+            wallSlideActive = true;
+            playerCollider.sharedMaterial = wallSlideMaterial;
+        }else if(value==false && wallSlideActive==true){
+            wallSlideActive = false;
+            playerCollider.sharedMaterial = slipperyMaterial;
         }
     }
 }
