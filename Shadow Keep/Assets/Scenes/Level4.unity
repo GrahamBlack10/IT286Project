@@ -740,6 +740,14 @@ PrefabInstance:
       propertyPath: _healthBarFill
       value: 
       objectReference: {fileID: 3530313670277099318}
+    - target: {fileID: 918559429178042349, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: longRangeAttackCoolDown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 918559429178042349, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: closeRangeAttackCoolDown
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4079736338124651580, guid: 484071e9590f641718ca23237d741e7c, type: 3}
       propertyPath: m_Name
       value: Player
@@ -5571,6 +5579,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2161723953419321356, guid: eeb86b2a744cc56429c616a52be44440, type: 3}
+      propertyPath: ability2Cooldown
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5459139111004085924, guid: eeb86b2a744cc56429c616a52be44440, type: 3}
       propertyPath: m_Pivot.x
       value: 0
