@@ -24,6 +24,7 @@ public class PlayerInformationScript : MonoBehaviour
     public int healAbilityPowerCost = 25;
     public int longRangeAttackPowerCost = 10;
     public int doubleJumpPowerCost = 5;
+    public int dashPowerCost = 15;
 
     public bool closeRangeAttackUsed = false;
     public int closeRangeAttackCoolDown = 1;
@@ -40,6 +41,10 @@ public class PlayerInformationScript : MonoBehaviour
     public bool doubleJumpUsed = false;
     public int doubleJumpCoolDown = 2;
     public double doubleJumpTimer = 0;
+
+    public bool dashUsed = false;
+    public int dashCoolDown = 3;
+    public float dashTimer = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -91,6 +96,13 @@ public class PlayerInformationScript : MonoBehaviour
                 doubleJumpUsed = false;
             }
         }
+        if(dashUsed){
+            dashTimer += Time.deltaTime;
+            if(dashTimer >= dashCoolDown){
+                dashTimer = 0;
+                dashUsed = false;
+            }
+        }
     }
 
     void setAliveToFalse(){
@@ -103,9 +115,11 @@ public class PlayerInformationScript : MonoBehaviour
     }
 
     public void takeDamage(float amount){
-        health -= amount;
-        playerMovementAndAttackScript.animator.SetTrigger("hit");
-        updateHealthBar();
+        if(playerMovementAndAttackScript.dashing == false){
+            health -= amount;
+            playerMovementAndAttackScript.animator.SetTrigger("hit");
+            updateHealthBar();
+        }
     }
 
     public void setHealth(float value){

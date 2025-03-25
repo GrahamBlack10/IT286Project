@@ -8,12 +8,16 @@ using UnityEngine.UI;
 public class PlayerMovementScript : MonoBehaviour
 {
     public float horizontalMovementSpeed = 10;
+    private float dashSpeedMultiple = 3f;
+    private float dashTimeLimit = 0.25f;
+    private float dashTimer = 0;
     public float jumpHeight = 10;
     public bool isAttacking = false;
     public double attackBuffer = 0.05;
     private bool isGrounded = true;
     public bool healing = false;
     private bool doubleJumpActive = true;
+    public bool dashing = false;
     private int maxJumps = 2;
     private int currentJumps = 0;
     public float healingPerSecond = 10;
@@ -99,6 +103,19 @@ public class PlayerMovementScript : MonoBehaviour
                     healCount = 0;
                     healingCounter = timePerHealIcon;
                     healing = false;
+                }
+            }
+            if(Input.GetKeyDown(KeyCode.E) && !dashing && !playerInformationScript.dashUsed){
+                dashing = true;
+                playerInformationScript.drainPower(playerInformationScript.dashPowerCost);
+                playerInformationScript.dashUsed = true;
+            }
+            if(dashing){
+                dealWithDashVelocity();
+                dashTimer += Time.deltaTime;
+                if(dashTimer >= dashTimeLimit){
+                    dashTimer = 0;
+                    dashing = false;
                 }
             }
             if(Input.GetMouseButtonDown(0) && !isAttacking && isGrounded && !playerInformationScript.closeRangeAttackUsed){
@@ -208,6 +225,14 @@ public class PlayerMovementScript : MonoBehaviour
         }else if(value==false && wallSlideActive==true){
             wallSlideActive = false;
             playerCollider.sharedMaterial = slipperyMaterial;
+        }
+    }
+
+    private void dealWithDashVelocity(){
+        if(directionFacing == "right"){
+            myRidgidBody.linearVelocityX = horizontalMovementSpeed * dashSpeedMultiple;
+        }else{
+            myRidgidBody.linearVelocityX = -horizontalMovementSpeed * dashSpeedMultiple;
         }
     }
 }
