@@ -752,6 +752,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7911233624480723004, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: dashUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911233624480723004, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: doubleJumpUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911233624480723004, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: healAbilityUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911233624480723004, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: longRangeAttackUnlocked
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8235549207057396547, guid: 484071e9590f641718ca23237d741e7c, type: 3}
       propertyPath: jumpHeight
       value: 30
