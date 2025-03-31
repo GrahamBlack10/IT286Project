@@ -8,12 +8,16 @@ using UnityEngine.UI;
 public class PlayerMovementScript : MonoBehaviour
 {
     public float horizontalMovementSpeed = 10;
+    private float dashSpeedMultiple = 3f;
+    private float dashTimeLimit = 0.25f;
+    private float dashTimer = 0;
     public float jumpHeight = 10;
     public bool isAttacking = false;
     public double attackBuffer = 0.05;
     private bool isGrounded = true;
     public bool healing = false;
     private bool doubleJumpActive = true;
+    public bool dashing = false;
     private int maxJumps = 2;
     private int currentJumps = 0;
     public float healingPerSecond = 10;
@@ -33,6 +37,7 @@ public class PlayerMovementScript : MonoBehaviour
     public PhysicsMaterial2D wallSlideMaterial;
     public PhysicsMaterial2D slipperyMaterial;
     public PlayerInformationScript playerInformationScript;
+    public unlockedAbilitiesScript unlockedAbilitiesScript;
     [SerializeField] private Image _healthBarFill;
 
     private bool wallSlideActive = false;
@@ -62,7 +67,7 @@ public class PlayerMovementScript : MonoBehaviour
                 myRidgidBody.linearVelocityX = 0;
             }
             if(Input.GetKeyDown(KeyCode.W)){
-                if(isGrounded && !isAttacking || (doubleJumpActive && currentJumps < maxJumps && !playerInformationScript.doubleJumpUsed)){
+                if(isGrounded && !isAttacking || (doubleJumpActive && currentJumps < maxJumps && !playerInformationScript.doubleJumpUsed && unlockedAbilitiesScript.doubleJumpUnlocked)){
                     myRidgidBody.linearVelocityY = jumpHeight;
                     isGrounded = false;
                     animator.SetBool("isJumping", !isGrounded);
@@ -73,7 +78,7 @@ public class PlayerMovementScript : MonoBehaviour
                     }
                 }
             }
-            if(Input.GetKeyDown(KeyCode.Space) && !isAttacking && !healing && !playerInformationScript.healAbilityUsed){
+            if(Input.GetKeyDown(KeyCode.Space) && !isAttacking && !healing && !playerInformationScript.healAbilityUsed && unlockedAbilitiesScript.healAbilityUnlocked){
                 //initializing healing
                 healing = true;
                 playerInformationScript.healAbilityUsed = true;
@@ -101,6 +106,19 @@ public class PlayerMovementScript : MonoBehaviour
                     healing = false;
                 }
             }
+            if(Input.GetKeyDown(KeyCode.E) && !dashing && !playerInformationScript.dashUsed && unlockedAbilitiesScript.dashUnlocked){
+                dashing = true;
+                playerInformationScript.drainPower(playerInformationScript.dashPowerCost);
+                playerInformationScript.dashUsed = true;
+            }
+            if(dashing){
+                dealWithDashVelocity();
+                dashTimer += Time.deltaTime;
+                if(dashTimer >= dashTimeLimit){
+                    dashTimer = 0;
+                    dashing = false;
+                }
+            }
             if(Input.GetMouseButtonDown(0) && !isAttacking && isGrounded && !playerInformationScript.closeRangeAttackUsed){
                 //initiate close range attack
                 isAttacking = true;
@@ -110,7 +128,7 @@ public class PlayerMovementScript : MonoBehaviour
                 //attackType = "closeRangeAttack";
                 playerInformationScript.drainPower(playerInformationScript.closeRangeAttackPowerCost);
             }
-            if(Input.GetMouseButtonDown(1) && !isAttacking && !playerInformationScript.longRangeAttackUsed){
+            if(Input.GetMouseButtonDown(1) && !isAttacking && !playerInformationScript.longRangeAttackUsed && unlockedAbilitiesScript.longRangeAttackUnlocked){
                 //initiate long range attack
                 isAttacking = true;
                 playerInformationScript.longRangeAttackUsed = true;
@@ -208,6 +226,14 @@ public class PlayerMovementScript : MonoBehaviour
         }else if(value==false && wallSlideActive==true){
             wallSlideActive = false;
             playerCollider.sharedMaterial = slipperyMaterial;
+        }
+    }
+
+    private void dealWithDashVelocity(){
+        if(directionFacing == "right"){
+            myRidgidBody.linearVelocityX = horizontalMovementSpeed * dashSpeedMultiple;
+        }else{
+            myRidgidBody.linearVelocityX = -horizontalMovementSpeed * dashSpeedMultiple;
         }
     }
 }

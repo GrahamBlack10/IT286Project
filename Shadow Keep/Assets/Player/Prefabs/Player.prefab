@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7314502854372070245}
   - component: {fileID: 918559429178042349}
   - component: {fileID: 3970583191610507960}
+  - component: {fileID: 7911233624480723004}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -56,6 +57,7 @@ MonoBehaviour:
   isAttacking: 0
   attackBuffer: 0.05
   healing: 0
+  dashing: 0
   healingPerSecond: 10
   timePerHealIcon: 1
   myRidgidBody: {fileID: 2574388804705511358}
@@ -69,6 +71,7 @@ MonoBehaviour:
   wallSlideMaterial: {fileID: 6200000, guid: 10ff7b24e8ae64e20b20861bc891252e, type: 2}
   slipperyMaterial: {fileID: 6200000, guid: 38709dde69149400e9688584dc325627, type: 2}
   playerInformationScript: {fileID: 918559429178042349}
+  unlockedAbilitiesScript: {fileID: 7911233624480723004}
   _healthBarFill: {fileID: 0}
 --- !u!50 &2574388804705511358
 Rigidbody2D:
@@ -280,6 +283,7 @@ MonoBehaviour:
   healAbilityPowerCost: 25
   longRangeAttackPowerCost: 10
   doubleJumpPowerCost: 5
+  dashPowerCost: 15
   closeRangeAttackUsed: 0
   closeRangeAttackCoolDown: 1
   closeRangeTimer: 0
@@ -292,6 +296,9 @@ MonoBehaviour:
   doubleJumpUsed: 0
   doubleJumpCoolDown: 2
   doubleJumpTimer: 0
+  dashUsed: 0
+  dashCoolDown: 3
+  dashTimer: 0
 --- !u!60 &3970583191610507960
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -367,3 +374,19 @@ PolygonCollider2D:
       - {x: 0.29, y: -0.26}
       - {x: 0.39999998, y: -0.26}
   m_UseDelaunayMesh: 0
+--- !u!114 &7911233624480723004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4079736338124651580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: befd875c286b8456d9a2f6a571998e51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  longRangeAttackUnlocked: 0
+  healAbilityUnlocked: 0
+  doubleJumpUnlocked: 0
+  dashUnlocked: 0
