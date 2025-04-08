@@ -1666,7 +1666,8 @@ PrefabInstance:
       value: 'New Ability Unlocked!!!!!!
 
 
-        Long Range Attack Press Left Mouse
+        Long Range Attack Press Right
+        Mouse
 
 '
       objectReference: {fileID: 0}

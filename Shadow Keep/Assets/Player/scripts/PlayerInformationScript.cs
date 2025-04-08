@@ -50,6 +50,8 @@ public class PlayerInformationScript : MonoBehaviour
     public double doubleJumpTimer = 0;
 
     public bool dashUsed = false; // Optional: for tracking if dash has been used
+    public int dashCoolDown = 3;
+    public double dashTimer = 0;
 
     void Update()
     {
@@ -107,6 +109,16 @@ public class PlayerInformationScript : MonoBehaviour
             {
                 doubleJumpTimer = 0;
                 doubleJumpUsed = false;
+            }
+        }
+
+        if (dashUsed)
+        {
+            dashTimer += Time.deltaTime;
+            if (dashTimer >= dashCoolDown)
+            {
+                dashTimer = 0;
+                dashUsed = false;
             }
         }
     }
