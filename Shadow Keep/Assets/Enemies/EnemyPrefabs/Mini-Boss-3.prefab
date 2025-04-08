@@ -369,5 +369,5 @@ MonoBehaviour:
   healAmount: 150
   bonusDamageDuration: 4
   skeletonPrefab: {fileID: 3208528707293329473, guid: 7b63c21ac0f08f24a9f9c0609f503b90, type: 3}
-  minionsToSummon: 3
-  summonCooldown: 6
+  minionsToSummon: 2
+  summonCooldown: 4

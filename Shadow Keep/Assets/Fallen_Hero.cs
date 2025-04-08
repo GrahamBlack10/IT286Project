@@ -190,7 +190,7 @@ public class Fallen_Hero : MonoBehaviour
         currentHealth = Mathf.Min(currentHealth + healAmount, maxHealth);
         bonusDamageActive = true;
         bonusDamageTimer = bonusDamageDuration;
-        attackDamage = baseAttackDamage + 25; // Apply bonus damage
+        attackDamage = baseAttackDamage + 25;
         animator.SetTrigger("heal");
         Debug.Log("Fallen-Hero healed and gained bonus damage!");
     }
@@ -201,7 +201,6 @@ public class Fallen_Hero : MonoBehaviour
 
         lastJumpTime = Time.time;
         animator.SetTrigger("jump");
-        rb.gravityScale = 1f;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         Debug.Log("Fallen-Hero jumped!");
     }
@@ -223,10 +222,7 @@ public class Fallen_Hero : MonoBehaviour
         if (!isDead)
         {
             isAttacking = false;
-            if (!isPlayerNearby)
-                animator.SetBool("isWalking", false);
-            else
-                animator.SetBool("isWalking", true);
+            animator.SetBool("isWalking", isPlayerNearby);
         }
     }
 
@@ -302,13 +298,10 @@ public class Fallen_Hero : MonoBehaviour
 
             if (isGroundedNow)
             {
-                rb.gravityScale = 0f;
-                rb.linearVelocity = Vector2.zero;
                 animator.SetBool("fall", false);
             }
             else
             {
-                rb.gravityScale = 1f;
                 if (wasGroundedLastFrame)
                 {
                     animator.SetTrigger("fall");
