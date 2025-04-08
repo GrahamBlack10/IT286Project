@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4059412261980542816}
   - component: {fileID: 4797918333367921524}
   - component: {fileID: 4924278301235512312}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fallen Hero
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -377,6 +377,6 @@ MonoBehaviour:
   jumpForce: 8
   jumpCooldown: 5
   invisStrikeCooldown: 7
-  selfHealCooldown: 7
+  selfHealCooldown: 5
   healAmount: 200
   bonusDamageDuration: 5
