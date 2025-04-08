@@ -374,14 +374,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe193a1197cef64982007ebe8d341b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 500
-  attackDamage: 50
+  maxHealth: 350
+  attackDamage: 34
   defense: 10
   movementSpeed: 2
   detectionRange: 6
   attackRange: 2
   attackCooldown: 1
-  spellCooldown: 10
+  spellCooldown: 7
   spellHealthBoost: 100
   spellDamageBoost: 20
 --- !u!95 &5969536229841071291

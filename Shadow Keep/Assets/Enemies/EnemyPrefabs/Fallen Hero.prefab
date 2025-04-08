@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 4924278301235512312}
   m_Layer: 0
   m_Name: Fallen Hero
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -235,8 +235,9 @@ PolygonCollider2D:
       - {x: -0.26, y: -0.13}
       - {x: -0.26, y: -0.21}
       - {x: -0.21, y: -0.24}
-      - {x: 0.14999999, y: -0.24}
-      - {x: 0.14999999, y: -0.02}
+      - {x: 0.43427026, y: -0.3316842}
+      - {x: 0.5257704, y: -0.03148043}
+      - {x: 0.52646613, y: 0.12261987}
       - {x: 0.13, y: 0.13}
   m_UseDelaunayMesh: 0
 --- !u!60 &118766534274718776
@@ -292,14 +293,16 @@ PolygonCollider2D:
       - {x: -0.11, y: 0.29999998}
       - {x: -0.24365968, y: 0.17339572}
       - {x: -0.26609817, y: 0.06339571}
+      - {x: -0.26373625, y: 0.0027570354}
       - {x: -0.2621958, y: -0.03679142}
       - {x: -0.26365972, y: -0.043208573}
       - {x: -0.26, y: -0.13}
       - {x: -0.26, y: -0.21}
       - {x: -0.21, y: -0.24}
-      - {x: 0.2537203, y: -0.25018704}
-      - {x: 0.261403, y: -0.03697856}
-      - {x: 0.24908629, y: 0.13}
+      - {x: 0.43042907, y: -0.3316841}
+      - {x: 0.5296581, y: -0.19338578}
+      - {x: 0.53414893, y: -0.060748525}
+      - {x: 0.5256736, y: 0.13}
   m_UseDelaunayMesh: 0
 --- !u!50 &4059412261980542816
 Rigidbody2D:
@@ -338,7 +341,7 @@ Animator:
   m_GameObject: {fileID: 8392499594135789676}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 25d180fe983e0b9429ad341239ea7ef6, type: 2}
+  m_Controller: {fileID: 9100000, guid: c25446402c487974dbb7f076f03adbdd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -362,14 +365,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb08d2909d895cb48804053677380550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 320
-  attackDamage: 45
+  maxHealth: 500
+  attackDamage: 30
+  baseAttackDamage: 50
   defense: 10
   movementSpeed: 2
   detectionRange: 12
-  attackRange: 2.5
+  attackRange: 3.5
   attackCooldown: 2.5
   deathAnimationDuration: 2
   jumpForce: 8
   jumpCooldown: 5
   invisStrikeCooldown: 7
+  selfHealCooldown: 7
+  healAmount: 200
+  bonusDamageDuration: 5
