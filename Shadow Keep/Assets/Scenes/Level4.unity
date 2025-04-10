@@ -732,6 +732,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4924278301235512312, guid: d66e648933a8e124fb4067ee170388d0, type: 3}
+      propertyPath: maxHealth
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 8392499594135789676, guid: d66e648933a8e124fb4067ee170388d0, type: 3}
       propertyPath: m_Name
       value: Fallen Hero
@@ -917,6 +921,18 @@ PrefabInstance:
     - target: {fileID: 918559429178042349, guid: 484071e9590f641718ca23237d741e7c, type: 3}
       propertyPath: closeRangeAttackCoolDown
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3104680088112795285, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5849056
+      objectReference: {fileID: 0}
+    - target: {fileID: 3104680088112795285, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5849056
+      objectReference: {fileID: 0}
+    - target: {fileID: 3104680088112795285, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5849056
       objectReference: {fileID: 0}
     - target: {fileID: 4079736338124651580, guid: 484071e9590f641718ca23237d741e7c, type: 3}
       propertyPath: m_Name
