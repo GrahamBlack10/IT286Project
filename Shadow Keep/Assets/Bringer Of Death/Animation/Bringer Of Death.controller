@@ -317,7 +317,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: Attack
     m_Type: 9
@@ -421,16 +421,16 @@ AnimatorStateMachine:
     m_Position: {x: 390, y: -130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7424406582177607704}
-    m_Position: {x: 270, y: 130, z: 0}
+    m_Position: {x: 140, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4296668185621246524}
-    m_Position: {x: 305, y: 195, z: 0}
+    m_Position: {x: 500, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1416750314088983133}
-    m_Position: {x: 340, y: 260, z: 0}
+    m_Position: {x: 350, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6297427740756195321}
-    m_Position: {x: 375, y: 325, z: 0}
+    m_Position: {x: 560, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1900366566161174631}
     m_Position: {x: 410, y: 390, z: 0}

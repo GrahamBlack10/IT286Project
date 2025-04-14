@@ -72,39 +72,44 @@ public class projectileScript : MonoBehaviour
         Destroy(gameObject);
     }
 
-  private void OnTriggerEnter2D(Collider2D collision)
+private void OnTriggerEnter2D(Collider2D collision)
 {
     if (collision.gameObject.CompareTag("Enemy"))
     {
-        Mini_Boss_1 enemy1 = collision.gameObject.GetComponent<Mini_Boss_1>();
-        if (enemy1 != null)
+        // Attempt damage on all known enemy types
+        if (collision.TryGetComponent(out Mini_Boss_1 enemy1))
         {
             enemy1.TakeDamage(projectileDamage);
         }
-        else
+        else if (collision.TryGetComponent(out Mini_Boss_3 enemy2))
         {
-            Evil_Wizard enemy2 = collision.gameObject.GetComponent<Evil_Wizard>();
-            if (enemy2 != null)
-            {
-                enemy2.TakeDamage(projectileDamage);
-            }
-            else
-            {
-                Skeleton_Stats enemy3 = collision.gameObject.GetComponent<Skeleton_Stats>();
-                if (enemy3 != null)
-                {
-                    enemy3.TakeDamage(projectileDamage);
-                }
-                else
-                {
-                    FlyingEye enemy4 = collision.gameObject.GetComponent<FlyingEye>();
-                    if (enemy4 != null)
-                    {
-                        enemy4.TakeDamage(projectileDamage);
-                    }
-                }
-            }
+            enemy2.TakeDamage(projectileDamage);
         }
+        else if (collision.TryGetComponent(out Evil_Wizard enemy3))
+        {
+            enemy3.TakeDamage(projectileDamage);
+        }
+        else if (collision.TryGetComponent(out Fallen_Hero enemy4))
+        {
+            enemy4.TakeDamage(projectileDamage);
+        }
+        else if (collision.TryGetComponent(out Goblin enemy5))
+        {
+            enemy5.TakeDamage(projectileDamage);
+        }
+        else if (collision.TryGetComponent(out Mushroom enemy6))
+        {
+            enemy6.TakeDamage(projectileDamage);
+        }
+        else if (collision.TryGetComponent(out Skeleton_Stats enemy7))
+        {
+            enemy7.TakeDamage(projectileDamage);
+        }
+        else if (collision.TryGetComponent(out FlyingEye enemy8))
+        {
+            enemy8.TakeDamage(projectileDamage);
+        }
+
         Destroy(gameObject);
     }
     else if (!collision.gameObject.CompareTag("Player"))

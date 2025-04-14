@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -7231719105849414419}
   m_Layer: 0
   m_Name: Mini-Boss-3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -356,14 +356,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88bbfc3d8f3759b489e9928dc71a5a0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 250
-  attackDamage: 35
+  maxHealth: 450
+  attackDamage: 25
+  baseAttackDamage: 35
   defense: 7
   movementSpeed: 2
   detectionRange: 10
   attackRange: 2
   attackCooldown: 2
   deathAnimationDuration: 1.5
-  Skeleton: {fileID: 3208528707293329473, guid: 7b63c21ac0f08f24a9f9c0609f503b90, type: 3}
+  selfHealCooldown: 12
+  healAmount: 150
+  bonusDamageDuration: 4
+  skeletonPrefab: {fileID: 3208528707293329473, guid: 7b63c21ac0f08f24a9f9c0609f503b90, type: 3}
   minionsToSummon: 2
-  summonCooldown: 10
+  summonCooldown: 4

@@ -3,17 +3,30 @@ using System.Collections;
 
 public class Evil_Wizard : MonoBehaviour
 {
-    public int maxHealth = 700; // increased health
+    public int maxHealth = 700;
     private int currentHealth;
-    public int attackDamage = 35; // lowered physical attack damage
-    public int defense = 8; // lowered defense
-    public float movementSpeed = 2.5f; // slightly faster movement
-    public float detectionRange = 10.0f; // increased detection range
-    public float attackRange = 2.0f; // same attack range
-    public float attackCooldown = 2.0f; // slightly longer attack cooldown
-    public int spellHealthBoost = 120; // amount of health to regenerate per buff cycle
-    public int spellDamageBoost = 25; // amount of attack increase per buff cycle
-    public float deathAnimationDuration = 1.0f; // duration of death animation
+    public int attackDamage = 35;
+    public int baseAttackDamage = 35;
+    public int defense = 8;
+    public float movementSpeed = 2.5f;
+    public float detectionRange = 10.0f;
+    public float attackRange = 2.0f;
+    public float attackCooldown = 2.0f;
+    public int spellHealthBoost = 120;
+    public int spellDamageBoost = 25;
+    public float deathAnimationDuration = 1.0f;
+
+    // Heal & Buff
+    public float healCooldown = 10f;
+    private float lastHealTime = 0f;
+    private float buffDuration = 5f;
+    private float buffTimer = 0f;
+    private bool isBuffed = false;
+
+    // Summoning
+    public GameObject mushroomPrefab;
+    public float summonCooldown = 12f;
+    private float lastSummonTime = 0f;
 
     private float lastAttackTime;
     private bool isAttacking = false;
@@ -35,7 +48,6 @@ public class Evil_Wizard : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        // Get attack and detection colliders
         PolygonCollider2D[] colliders = GetComponents<PolygonCollider2D>();
         foreach (PolygonCollider2D collider in colliders)
         {
@@ -77,7 +89,6 @@ public class Evil_Wizard : MonoBehaviour
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        // Only update movement animations if not attacking.
         if (distanceToPlayer <= detectionRange)
         {
             isPlayerNearby = true;
@@ -87,16 +98,33 @@ public class Evil_Wizard : MonoBehaviour
         else
         {
             isPlayerNearby = false;
-            // Only play Idle if not already in Idle state.
             if (!isAttacking && !animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
                 animator.Play("Idle");
         }
 
-        // Attack if within melee range and not already attacking.
         if (isPlayerNearby && distanceToPlayer <= attackRange && !isAttacking)
         {
-            Debug.Log("Evil-Wizard is attempting to attack!");
             AttackPlayer();
+        }
+
+        if (Time.time >= lastHealTime + healCooldown && currentHealth < maxHealth / 2f)
+        {
+            HealAndBuff();
+        }
+
+        if (Time.time >= lastSummonTime + summonCooldown && !isAttacking)
+        {
+            SummonMushroom();
+        }
+
+        if (isBuffed)
+        {
+            buffTimer -= Time.deltaTime;
+            if (buffTimer <= 0f)
+            {
+                isBuffed = false;
+                attackDamage = baseAttackDamage;
+            }
         }
 
         StickToPlatform();
@@ -109,13 +137,40 @@ public class Evil_Wizard : MonoBehaviour
 
         isAttacking = true;
         lastAttackTime = Time.time;
-        // Play the Attack animation (make sure the clip is set to not loop in your Animator)
         animator.Play("Attack");
         Debug.Log("Evil-Wizard attacked the player!");
 
         Invoke(nameof(EnableAttackCollider), 0.2f);
         Invoke(nameof(DisableAttackCollider), 0.5f);
         Invoke(nameof(ResetAttack), attackCooldown);
+    }
+
+    private void HealAndBuff()
+    {
+        lastHealTime = Time.time;
+        currentHealth = Mathf.Min(currentHealth + spellHealthBoost, maxHealth);
+        attackDamage = baseAttackDamage + spellDamageBoost;
+        isBuffed = true;
+        buffTimer = buffDuration;
+        animator.Play("Cast");
+        Debug.Log("Evil-Wizard healed and gained bonus damage!");
+    }
+
+    private void SummonMushroom()
+    {
+        lastSummonTime = Time.time;
+        animator.Play("Summon");
+
+        Vector3 spawnPos = transform.position + new Vector3(1f, 0, 0);
+        if (mushroomPrefab != null)
+        {
+            Instantiate(mushroomPrefab, spawnPos, Quaternion.identity);
+            Debug.Log("Evil-Wizard summoned a Mushroom!");
+        }
+        else
+        {
+            Debug.LogWarning("Mushroom prefab not assigned in Evil_Wizard.");
+        }
     }
 
     private void EnableAttackCollider()
@@ -135,7 +190,6 @@ public class Evil_Wizard : MonoBehaviour
         if (!isDead)
         {
             isAttacking = false;
-            // Transition to Idle if player is not nearby.
             if (!isPlayerNearby)
                 animator.Play("Idle");
         }
@@ -184,7 +238,6 @@ public class Evil_Wizard : MonoBehaviour
         if (isAttacking)
             return;
 
-        // Only play "Run" if not already running.
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
             animator.Play("Run");
 
@@ -193,7 +246,6 @@ public class Evil_Wizard : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
     }
 
-    // Flips the wizard to face the player based on relative x positions.
     private void FlipTowardsPlayer()
     {
         if (player == null)
@@ -201,9 +253,9 @@ public class Evil_Wizard : MonoBehaviour
 
         Vector3 scale = transform.localScale;
         if (player.position.x > transform.position.x)
-            scale.x = Mathf.Abs(scale.x); // Face right.
+            scale.x = Mathf.Abs(scale.x);
         else
-            scale.x = -Mathf.Abs(scale.x); // Face left.
+            scale.x = -Mathf.Abs(scale.x);
         transform.localScale = scale;
     }
 
@@ -231,7 +283,6 @@ public class Evil_Wizard : MonoBehaviour
             return;
 
         isDead = true;
-        // Play the Death animation (ensure the clip is set to not loop)
         animator.Play("Death");
         Debug.Log("Evil-Wizard has died.");
 
@@ -240,7 +291,6 @@ public class Evil_Wizard : MonoBehaviour
         if (rb != null)
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
-        // Delay destruction until the death animation has finished.
         Invoke(nameof(DestroyEvilWizard), deathAnimationDuration);
     }
 

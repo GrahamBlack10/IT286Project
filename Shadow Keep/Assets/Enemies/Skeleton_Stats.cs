@@ -7,14 +7,14 @@ public class Skeleton_Stats : MonoBehaviour
     public int attackDamage = 15;
     public int defense = 5;
     public float movementSpeed = 2.5f;
-    public float detectionRange = 4.0f; // ✅ Skeleton detects player within this range
-    public float attackRange = 1.5f; // ✅ Skeleton attacks only when this close
+    public float detectionRange = 4.5f; // Skeleton detects player within this range
+    public float attackRange = 1.5f; // Skeleton attacks only when this close
     public float attackCooldown = 1.5f;
     private float lastAttackTime;
     private bool isAttacking = false;
     private bool isTakingDamage = false;
     private bool isDead = false;
-    private bool isPlayerNearby = false; // ✅ Ensures skeleton only attacks when player is in range
+    private bool isPlayerNearby = false; // Ensures skeleton only attacks when player is in range
 
     private Transform player;
     private PlayerMovementScript playerMovement;
@@ -141,31 +141,31 @@ public class Skeleton_Stats : MonoBehaviour
         isAttacking = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (isDead) return;
+   private void OnTriggerEnter2D(Collider2D collision)
+{
+    if (isDead)
+        return;
 
-        if (collision.gameObject.CompareTag("Lava"))
+    if (collision.gameObject.CompareTag("Lava"))
+    {
+        Debug.Log("Skeleton fell into lava!");
+        Die();
+    }
+    else if (playerAttackCollider != null && collision == playerAttackCollider && playerMovement != null && playerMovement.isAttacking)
+    {
+        if (playerInfo != null)
+            TakeDamage((int)playerInfo.getAttackDamage());
+    }
+    else if (collision.CompareTag("Player") && attackCollider != null && attackCollider.enabled)
+    {
+        if (playerInfo != null)
         {
-            Debug.Log("Skeleton fell into lava!");
-            Die(); // Kill skeleton when it touches lava
-        }
-        else if (collision == playerAttackCollider && playerMovement.isAttacking)
-        {
-            if (playerInfo != null)
-            {
-                TakeDamage((int)playerInfo.getAttackDamage()); // Take damage only if player is attacking
-            }
-        }
-        else if (collision.CompareTag("Player") && attackCollider.enabled)
-        {
-            if (playerInfo != null)
-            {
-                playerInfo.takeDamage(attackDamage);
-                Debug.Log("✅ Skeleton successfully damaged the player!");
-            }
+            playerInfo.takeDamage(attackDamage);
+            Debug.Log("Skeleton damaged the player!");
         }
     }
+}
+
 
     public void TakeDamage(int damage)
     {

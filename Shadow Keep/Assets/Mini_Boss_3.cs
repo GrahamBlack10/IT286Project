@@ -6,6 +6,7 @@ public class Mini_Boss_3 : MonoBehaviour
     public int maxHealth = 1000;
     private int currentHealth;
     public int attackDamage = 35;
+    public int baseAttackDamage = 35;
     public int defense = 7;
     public float movementSpeed = 2.0f;
     public float detectionRange = 10.0f;
@@ -13,9 +14,15 @@ public class Mini_Boss_3 : MonoBehaviour
     public float attackCooldown = 2.0f;
     public float deathAnimationDuration = 1.5f;
 
-    // Special Ability: Summon Minions (using the "Skeleton" prefab)
-    // You can assign this in the Inspector from your EnemyPrefab folder.
-    // If not assigned, a fallback skeleton will be created.
+    // Heal and Buff
+    public float selfHealCooldown = 12.0f;
+    private float lastHealTime = 0f;
+    public int healAmount = 150;
+    public float bonusDamageDuration = 4.0f;
+    private float bonusDamageTimer = 0f;
+    private bool bonusDamageActive = false;
+
+    // Special Ability: Summon Minions
     public GameObject skeletonPrefab;
     public int minionsToSummon = 2;
     public float summonCooldown = 10.0f;
@@ -41,7 +48,6 @@ public class Mini_Boss_3 : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        // Retrieve attack and detection colliders.
         PolygonCollider2D[] colliders = GetComponents<PolygonCollider2D>();
         foreach (PolygonCollider2D collider in colliders)
         {
@@ -85,7 +91,6 @@ public class Mini_Boss_3 : MonoBehaviour
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        // Follow the player if within detection range.
         if (distanceToPlayer <= detectionRange)
         {
             isPlayerNearby = true;
@@ -99,10 +104,8 @@ public class Mini_Boss_3 : MonoBehaviour
                 animator.SetBool("isWalking", false);
         }
 
-        // When within melee range and not attacking, decide between a melee attack or summoning minions.
         if (isPlayerNearby && distanceToPlayer <= attackRange && !isAttacking)
         {
-            // 30% chance to summon minions if the ability is off cooldown.
             if (Time.time >= lastSummonTime + summonCooldown && Random.value < 0.3f)
             {
                 SummonMinions();
@@ -113,10 +116,24 @@ public class Mini_Boss_3 : MonoBehaviour
             }
         }
 
+        if (Time.time >= lastHealTime + selfHealCooldown && currentHealth < maxHealth / 2)
+        {
+            HealAndBuff();
+        }
+
+        if (bonusDamageActive)
+        {
+            bonusDamageTimer -= Time.deltaTime;
+            if (bonusDamageTimer <= 0)
+            {
+                bonusDamageActive = false;
+                attackDamage = baseAttackDamage;
+            }
+        }
+
         StickToPlatform();
     }
 
-    // Normal melee attack using the "attack" trigger.
     private void AttackPlayer()
     {
         if (isDead || isAttacking)
@@ -132,7 +149,6 @@ public class Mini_Boss_3 : MonoBehaviour
         Invoke(nameof(ResetAttack), attackCooldown);
     }
 
-    // Special Ability: Summon minions by instantiating the "Skeleton" prefab.
     private void SummonMinions()
     {
         if (isDead || isAttacking)
@@ -142,23 +158,18 @@ public class Mini_Boss_3 : MonoBehaviour
         lastSummonTime = Time.time;
         Debug.Log("Mini_Boss_3 is summoning minions!");
 
-        // Trigger a summoning animation (using the "attack" trigger)
         animator.SetTrigger("attack");
 
-        // If no prefab is assigned, create a fallback skeleton.
         if (skeletonPrefab == null)
         {
             Debug.LogWarning("Skeleton prefab not assigned in the Inspector! Creating a fallback skeleton.");
             skeletonPrefab = new GameObject("Skeleton");
-            // Add basic components to the fallback skeleton.
             skeletonPrefab.AddComponent<SpriteRenderer>();
             skeletonPrefab.AddComponent<BoxCollider2D>();
             skeletonPrefab.AddComponent<Rigidbody2D>();
             skeletonPrefab.AddComponent<Skeleton_Stats>();
-        
         }
 
-        // Spawn the specified number of minions near the boss.
         for (int i = 0; i < minionsToSummon; i++)
         {
             Vector3 spawnPosition = transform.position + (Vector3)Random.insideUnitCircle * 1.5f;
@@ -166,6 +177,17 @@ public class Mini_Boss_3 : MonoBehaviour
         }
 
         Invoke(nameof(ResetAttack), attackCooldown);
+    }
+
+    private void HealAndBuff()
+    {
+        lastHealTime = Time.time;
+        currentHealth = Mathf.Min(currentHealth + healAmount, maxHealth);
+        bonusDamageActive = true;
+        bonusDamageTimer = bonusDamageDuration;
+        attackDamage = baseAttackDamage + 20;
+        animator.SetTrigger("heal");
+        Debug.Log("Mini_Boss_3 healed and gained bonus damage!");
     }
 
     private void EnableAttackCollider()
@@ -190,7 +212,6 @@ public class Mini_Boss_3 : MonoBehaviour
         }
     }
 
-    // Follows the player by moving toward their horizontal position.
     private void FollowPlayer()
     {
         if (isAttacking)
@@ -202,7 +223,6 @@ public class Mini_Boss_3 : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
     }
 
-    // Flips the boss sprite to face the player.
     private void FlipTowardsPlayer()
     {
         if (player == null)
@@ -213,7 +233,6 @@ public class Mini_Boss_3 : MonoBehaviour
         transform.localScale = scale;
     }
 
-    // Uses a raycast to ensure the boss sticks to the ground.
     private void StickToPlatform()
     {
         if (rb != null)
