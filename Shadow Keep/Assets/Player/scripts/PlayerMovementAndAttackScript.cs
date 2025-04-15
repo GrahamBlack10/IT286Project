@@ -119,7 +119,7 @@ public class PlayerMovementScript : MonoBehaviour
                     dashing = false;
                 }
             }
-            if(Input.GetMouseButtonDown(0) && !isAttacking && isGrounded && !playerInformationScript.closeRangeAttackUsed){
+            if((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Q)) && !isAttacking && isGrounded && !playerInformationScript.closeRangeAttackUsed){
                 //initiate close range attack
                 isAttacking = true;
                 playerInformationScript.closeRangeAttackUsed = true;
@@ -128,7 +128,7 @@ public class PlayerMovementScript : MonoBehaviour
                 //attackType = "closeRangeAttack";
                 playerInformationScript.drainPower(playerInformationScript.closeRangeAttackPowerCost);
             }
-            if(Input.GetMouseButtonDown(1) && !isAttacking && !playerInformationScript.longRangeAttackUsed && unlockedAbilitiesScript.longRangeAttackUnlocked){
+            if((Input.GetMouseButtonDown(1)  || Input.GetKeyDown(KeyCode.S)) && !isAttacking && !playerInformationScript.longRangeAttackUsed && unlockedAbilitiesScript.longRangeAttackUnlocked){
                 //initiate long range attack
                 isAttacking = true;
                 playerInformationScript.longRangeAttackUsed = true;
