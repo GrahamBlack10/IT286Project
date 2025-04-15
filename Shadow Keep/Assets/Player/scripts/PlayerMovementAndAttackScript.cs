@@ -38,6 +38,7 @@ public class PlayerMovementScript : MonoBehaviour
     public PhysicsMaterial2D slipperyMaterial;
     public PlayerInformationScript playerInformationScript;
     public unlockedAbilitiesScript unlockedAbilitiesScript;
+    public PlayerSoundScript playerSoundScript;
     [SerializeField] private Image _healthBarFill;
 
     private bool wallSlideActive = false;
@@ -72,6 +73,7 @@ public class PlayerMovementScript : MonoBehaviour
                     isGrounded = false;
                     animator.SetBool("isJumping", !isGrounded);
                     currentJumps++;
+                    playerSoundScript.playJumpSoundEffect();
                     if(currentJumps >= 2){
                         playerInformationScript.drainPower(playerInformationScript.doubleJumpPowerCost);
                         playerInformationScript.doubleJumpUsed = true;
