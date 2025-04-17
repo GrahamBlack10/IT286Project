@@ -86,6 +86,7 @@ public class PlayerMovementScript : MonoBehaviour
                 playerInformationScript.healAbilityUsed = true;
                 healingCounter = timePerHealIcon;
                 playerInformationScript.drainPower(playerInformationScript.healAbilityPowerCost);
+                playerSoundScript.playHealSound();
             }
 
             if(healing){
@@ -112,6 +113,7 @@ public class PlayerMovementScript : MonoBehaviour
                 dashing = true;
                 playerInformationScript.drainPower(playerInformationScript.dashPowerCost);
                 playerInformationScript.dashUsed = true;
+                playerSoundScript.playDashSoundEffect();
             }
             if(dashing){
                 dealWithDashVelocity();
@@ -137,6 +139,7 @@ public class PlayerMovementScript : MonoBehaviour
                 animator.SetTrigger("longRangeAttack");
                 playerInformationScript.drainPower(playerInformationScript.longRangeAttackPowerCost);
                 animator.SetBool("isJumping", false);
+                playerSoundScript.playSwordSwingSound();
             }
             animator.SetFloat("xVelocity", math.abs(myRidgidBody.linearVelocityX));
             animator.SetFloat("yVelocity", myRidgidBody.linearVelocityY);

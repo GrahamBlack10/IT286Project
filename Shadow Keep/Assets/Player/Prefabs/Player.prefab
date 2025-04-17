@@ -277,6 +277,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 2719564349655288611}
   playerMovementAndAttackScript: {fileID: 8235549207057396547}
+  spriteRenderer: {fileID: 3104680088112795285}
+  playerSoundScript: {fileID: 6919494401936266490}
   _healthBarFill: {fileID: 0}
   _powerBarFill: {fileID: 0}
   projectileDamage: 50
@@ -504,3 +506,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 5136797826216119349}
   jumpSoundEffect: {fileID: 8300000, guid: e26acde9bf82246b98c0e8bbbe77814a, type: 3}
+  dashSoundEffect: {fileID: 8300000, guid: ba4ebd4a8dc404db7a4de39695368591, type: 3}
+  swordSwingSound: {fileID: 8300000, guid: 355bdf04d89994e1ba744510f36ef080, type: 3}
+  swordStrikeSound: {fileID: 8300000, guid: 3f97e2e74808a4b7c8e4703be63aca05, type: 3}
+  healSound: {fileID: 8300000, guid: f5d7cb96ae6ef4ea6b13a810224f9c7f, type: 3}
+  footStepSound: {fileID: 8300000, guid: eef7fbcf5389648ef9e8b64e51a21333, type: 3}
+  gruntSound: {fileID: 8300000, guid: 29f32cb317e9b4731a930ac9cad5b6ca, type: 3}
+  slashSound: {fileID: 8300000, guid: 4602babbf4f144961b6867ec97a99438, type: 3}
