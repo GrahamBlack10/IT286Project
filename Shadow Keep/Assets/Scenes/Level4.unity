@@ -915,6 +915,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3530313670277099318}
     - target: {fileID: 918559429178042349, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: playerSoundScript
+      value: 
+      objectReference: {fileID: 779356157}
+    - target: {fileID: 918559429178042349, guid: 484071e9590f641718ca23237d741e7c, type: 3}
       propertyPath: longRangeAttackCoolDown
       value: 1
       objectReference: {fileID: 0}
@@ -938,6 +942,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6919494401936266490, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: gruntSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 29f32cb317e9b4731a930ac9cad5b6ca, type: 3}
+    - target: {fileID: 6919494401936266490, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+      propertyPath: slashSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 4602babbf4f144961b6867ec97a99438, type: 3}
     - target: {fileID: 7911233624480723004, guid: 484071e9590f641718ca23237d741e7c, type: 3}
       propertyPath: dashUnlocked
       value: 1
@@ -3066,6 +3078,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d805d7f9493b4704ea986502461399b1, type: 3}
+--- !u!114 &779356157 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6919494401936266490, guid: 484071e9590f641718ca23237d741e7c, type: 3}
+  m_PrefabInstance: {fileID: 128805623}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daf96c90e62754800b014deb8d0f3a79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &804264205 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2486517908777440641, guid: 8526ec61e887e694aaf42a9c21352e37, type: 3}

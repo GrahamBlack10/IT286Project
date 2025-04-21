@@ -7,6 +7,8 @@ public class PlayerInformationScript : MonoBehaviour
 {
     public Animator animator;
     public PlayerMovementScript playerMovementAndAttackScript;
+    public SpriteRenderer spriteRenderer;
+    public PlayerSoundScript playerSoundScript;
 
     public const float maxHealth = 100;
     private float health = maxHealth;
@@ -139,6 +141,7 @@ public class PlayerInformationScript : MonoBehaviour
         health -= amount;
         playerMovementAndAttackScript.animator.SetTrigger("hit");
         updateHealthBar();
+        playerSoundScript.playGruntSound();
     }
 
     public void setHealth(float value)

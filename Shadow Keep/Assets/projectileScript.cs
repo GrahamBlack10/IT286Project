@@ -11,7 +11,8 @@ public class projectileScript : MonoBehaviour
     private float lifeSpan = 3f;
     private float timer = 0f;
     private bool scaled = false;
-    public PlayerInformationScript playerInformationScript;
+    private PlayerInformationScript playerInformationScript;
+    private PlayerSoundScript playerSoundScript;
     public int projectileDamage;
 
     // Start is called once before the first frame update
@@ -31,8 +32,12 @@ public class projectileScript : MonoBehaviour
         
         // Get the player's projectile damage.
         playerInformationScript = GameObject.Find("Player").GetComponent<PlayerInformationScript>();
+        playerSoundScript = GameObject.Find("Player").GetComponent<PlayerSoundScript>();
         projectileDamage = playerInformationScript.getProjectileDamage();
         scaled = true;
+
+        //set color
+        spriteRenderer.color = playerInformationScript.spriteRenderer.color;
     }
 
     // Update is called once per frame
@@ -72,51 +77,51 @@ public class projectileScript : MonoBehaviour
         Destroy(gameObject);
     }
 
-private void OnTriggerEnter2D(Collider2D collision)
-{
-    if (collision.gameObject.CompareTag("Enemy"))
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Attempt damage on all known enemy types
-        if (collision.TryGetComponent(out Mini_Boss_1 enemy1))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            enemy1.TakeDamage(projectileDamage);
+            // Attempt damage on all known enemy types
+            if (collision.TryGetComponent(out Mini_Boss_1 enemy1))
+            {
+                enemy1.TakeDamage(projectileDamage);
+            }
+            else if (collision.TryGetComponent(out Mini_Boss_3 enemy2))
+            {
+                enemy2.TakeDamage(projectileDamage);
+            }
+            else if (collision.TryGetComponent(out Evil_Wizard enemy3))
+            {
+                enemy3.TakeDamage(projectileDamage);
+            }
+            else if (collision.TryGetComponent(out Fallen_Hero enemy4))
+            {
+                enemy4.TakeDamage(projectileDamage);
+            }
+            else if (collision.TryGetComponent(out Goblin enemy5))
+            {
+                enemy5.TakeDamage(projectileDamage);
+            }
+            else if (collision.TryGetComponent(out Mushroom enemy6))
+            {
+                enemy6.TakeDamage(projectileDamage);
+            }
+            else if (collision.TryGetComponent(out Skeleton_Stats enemy7))
+            {
+                enemy7.TakeDamage(projectileDamage);
+            }
+            else if (collision.TryGetComponent(out FlyingEye enemy8))
+            {
+                enemy8.TakeDamage(projectileDamage);
+            }
+            playerSoundScript.playSlashSound();
+            Destroy(gameObject);
         }
-        else if (collision.TryGetComponent(out Mini_Boss_3 enemy2))
+        else if (!collision.gameObject.CompareTag("Player"))
         {
-            enemy2.TakeDamage(projectileDamage);
+            Destroy(gameObject);
         }
-        else if (collision.TryGetComponent(out Evil_Wizard enemy3))
-        {
-            enemy3.TakeDamage(projectileDamage);
-        }
-        else if (collision.TryGetComponent(out Fallen_Hero enemy4))
-        {
-            enemy4.TakeDamage(projectileDamage);
-        }
-        else if (collision.TryGetComponent(out Goblin enemy5))
-        {
-            enemy5.TakeDamage(projectileDamage);
-        }
-        else if (collision.TryGetComponent(out Mushroom enemy6))
-        {
-            enemy6.TakeDamage(projectileDamage);
-        }
-        else if (collision.TryGetComponent(out Skeleton_Stats enemy7))
-        {
-            enemy7.TakeDamage(projectileDamage);
-        }
-        else if (collision.TryGetComponent(out FlyingEye enemy8))
-        {
-            enemy8.TakeDamage(projectileDamage);
-        }
-
-        Destroy(gameObject);
     }
-    else if (!collision.gameObject.CompareTag("Player"))
-    {
-        Destroy(gameObject);
-    }
-}
 
 
 }

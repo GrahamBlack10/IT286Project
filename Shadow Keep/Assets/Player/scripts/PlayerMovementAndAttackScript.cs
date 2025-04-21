@@ -38,6 +38,7 @@ public class PlayerMovementScript : MonoBehaviour
     public PhysicsMaterial2D slipperyMaterial;
     public PlayerInformationScript playerInformationScript;
     public unlockedAbilitiesScript unlockedAbilitiesScript;
+    public PlayerSoundScript playerSoundScript;
     [SerializeField] private Image _healthBarFill;
 
     private bool wallSlideActive = false;
@@ -72,6 +73,7 @@ public class PlayerMovementScript : MonoBehaviour
                     isGrounded = false;
                     animator.SetBool("isJumping", !isGrounded);
                     currentJumps++;
+                    playerSoundScript.playJumpSoundEffect();
                     if(currentJumps >= 2){
                         playerInformationScript.drainPower(playerInformationScript.doubleJumpPowerCost);
                         playerInformationScript.doubleJumpUsed = true;
@@ -84,6 +86,7 @@ public class PlayerMovementScript : MonoBehaviour
                 playerInformationScript.healAbilityUsed = true;
                 healingCounter = timePerHealIcon;
                 playerInformationScript.drainPower(playerInformationScript.healAbilityPowerCost);
+                playerSoundScript.playHealSound();
             }
 
             if(healing){
@@ -110,6 +113,7 @@ public class PlayerMovementScript : MonoBehaviour
                 dashing = true;
                 playerInformationScript.drainPower(playerInformationScript.dashPowerCost);
                 playerInformationScript.dashUsed = true;
+                playerSoundScript.playDashSoundEffect();
             }
             if(dashing){
                 dealWithDashVelocity();
@@ -119,7 +123,7 @@ public class PlayerMovementScript : MonoBehaviour
                     dashing = false;
                 }
             }
-            if(Input.GetMouseButtonDown(0) && !isAttacking && isGrounded && !playerInformationScript.closeRangeAttackUsed){
+            if((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Q)) && !isAttacking && isGrounded && !playerInformationScript.closeRangeAttackUsed){
                 //initiate close range attack
                 isAttacking = true;
                 playerInformationScript.closeRangeAttackUsed = true;
@@ -128,13 +132,14 @@ public class PlayerMovementScript : MonoBehaviour
                 //attackType = "closeRangeAttack";
                 playerInformationScript.drainPower(playerInformationScript.closeRangeAttackPowerCost);
             }
-            if(Input.GetMouseButtonDown(1) && !isAttacking && !playerInformationScript.longRangeAttackUsed && unlockedAbilitiesScript.longRangeAttackUnlocked){
+            if((Input.GetMouseButtonDown(1)  || Input.GetKeyDown(KeyCode.S)) && !isAttacking && !playerInformationScript.longRangeAttackUsed && unlockedAbilitiesScript.longRangeAttackUnlocked){
                 //initiate long range attack
                 isAttacking = true;
                 playerInformationScript.longRangeAttackUsed = true;
                 animator.SetTrigger("longRangeAttack");
                 playerInformationScript.drainPower(playerInformationScript.longRangeAttackPowerCost);
                 animator.SetBool("isJumping", false);
+                playerSoundScript.playSwordSwingSound();
             }
             animator.SetFloat("xVelocity", math.abs(myRidgidBody.linearVelocityX));
             animator.SetFloat("yVelocity", myRidgidBody.linearVelocityY);
