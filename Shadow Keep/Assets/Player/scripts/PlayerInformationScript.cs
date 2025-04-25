@@ -9,6 +9,7 @@ public class PlayerInformationScript : MonoBehaviour
     public PlayerMovementScript playerMovementAndAttackScript;
     public SpriteRenderer spriteRenderer;
     public PlayerSoundScript playerSoundScript;
+    private cameraScript cameraScript;
 
     public const float maxHealth = 100;
     private float health = maxHealth;
@@ -54,6 +55,11 @@ public class PlayerInformationScript : MonoBehaviour
     public bool dashUsed = false; // Optional: for tracking if dash has been used
     public int dashCoolDown = 3;
     public double dashTimer = 0;
+
+    void Start()
+    {
+        cameraScript = GameObject.Find("Main Camera").GetComponent<cameraScript>();
+    }
 
     void Update()
     {
@@ -142,6 +148,7 @@ public class PlayerInformationScript : MonoBehaviour
         playerMovementAndAttackScript.animator.SetTrigger("hit");
         updateHealthBar();
         playerSoundScript.playGruntSound();
+        cameraScript.shakeCamera();
     }
 
     public void setHealth(float value)
