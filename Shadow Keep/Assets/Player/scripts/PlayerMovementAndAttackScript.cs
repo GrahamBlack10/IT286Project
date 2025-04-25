@@ -28,6 +28,7 @@ public class PlayerMovementScript : MonoBehaviour
     private double healCount = 0;
     public Rigidbody2D myRidgidBody;
     public ParticleSystem footStepParticles;
+    public ParticleSystem swordStrikeParticles;
     public SpriteRenderer mySprite;
     public Animator animator;
     public GameObject healingIcon;
@@ -41,6 +42,7 @@ public class PlayerMovementScript : MonoBehaviour
     public unlockedAbilitiesScript unlockedAbilitiesScript;
     public PlayerSoundScript playerSoundScript;
     private ParticleScript footParticleScript;
+    private swordStrikeParticleScript swordAttackParticlesScript;
     [SerializeField] private Image _healthBarFill;
 
     private bool wallSlideActive = false;
@@ -52,8 +54,10 @@ public class PlayerMovementScript : MonoBehaviour
         jumpHeight = (float)(jumpHeight * Math.Sqrt(scaleFactor));
 
         footParticleScript = footStepParticles.GetComponent<ParticleScript>();
+        swordAttackParticlesScript = swordStrikeParticles.GetComponent<swordStrikeParticleScript>();
 
         footParticleScript.setParticleStartSizeMultiplier((float)(transform.localScale.y/2.16));
+        swordAttackParticlesScript.setParticleStartSizeMultiplier((float)(transform.localScale.y/2.16));
     }
 
     // Update is called once per frame
@@ -191,6 +195,7 @@ public class PlayerMovementScript : MonoBehaviour
 
     private void flipPlayerParticles(){
         footStepParticles.transform.localPosition = new Vector3(footStepParticles.transform.localPosition.x*-1, footStepParticles.transform.localPosition.y, footStepParticles.transform.localPosition.z);
+        swordStrikeParticles.transform.localPosition = new Vector3(swordStrikeParticles.transform.localPosition.x*-1, swordStrikeParticles.transform.localPosition.y, swordStrikeParticles.transform.localPosition.z);
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
@@ -256,5 +261,9 @@ public class PlayerMovementScript : MonoBehaviour
 
     private void playFootParticles(){
         footParticleScript.playFootstepEffect();
+    }
+
+    private void playSwordStrikeParticles(){
+        swordAttackParticlesScript.playSwordStrikeParticleEffect();
     }
 }
