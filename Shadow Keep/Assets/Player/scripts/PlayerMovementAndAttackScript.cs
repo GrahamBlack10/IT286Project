@@ -27,6 +27,8 @@ public class PlayerMovementScript : MonoBehaviour
     private double healLength = 5;
     private double healCount = 0;
     public Rigidbody2D myRidgidBody;
+    public ParticleSystem footStepParticles;
+    public ParticleSystem swordStrikeParticles;
     public SpriteRenderer mySprite;
     public Animator animator;
     public GameObject healingIcon;
@@ -39,6 +41,8 @@ public class PlayerMovementScript : MonoBehaviour
     public PlayerInformationScript playerInformationScript;
     public unlockedAbilitiesScript unlockedAbilitiesScript;
     public PlayerSoundScript playerSoundScript;
+    private ParticleScript footParticleScript;
+    private swordStrikeParticleScript swordAttackParticlesScript;
     [SerializeField] private Image _healthBarFill;
 
     private bool wallSlideActive = false;
@@ -48,6 +52,12 @@ public class PlayerMovementScript : MonoBehaviour
         float scaleFactor = (float)(transform.localScale.y/4.204167);
         horizontalMovementSpeed = (float)(horizontalMovementSpeed * Math.Sqrt(scaleFactor));
         jumpHeight = (float)(jumpHeight * Math.Sqrt(scaleFactor));
+
+        footParticleScript = footStepParticles.GetComponent<ParticleScript>();
+        swordAttackParticlesScript = swordStrikeParticles.GetComponent<swordStrikeParticleScript>();
+
+        footParticleScript.setParticleStartSizeMultiplier((float)(transform.localScale.y/2.16));
+        swordAttackParticlesScript.setParticleStartSizeMultiplier((float)(transform.localScale.y/2.16));
     }
 
     // Update is called once per frame
@@ -162,10 +172,12 @@ public class PlayerMovementScript : MonoBehaviour
             mySprite.flipX = true;
             directionFacing = "left";
             flipPlayerColliders();
+            flipPlayerParticles();
         }else if(directionFacing == "left" && directionFacing != direction){
             mySprite.flipX = false;
             directionFacing = "right";
             flipPlayerColliders();
+            flipPlayerParticles();
         }
     }
 
@@ -179,6 +191,11 @@ public class PlayerMovementScript : MonoBehaviour
             points[i].x *= -1; // Flip each point horizontally
         }
         closeRangeAttackCollider.points = points;
+    }
+
+    private void flipPlayerParticles(){
+        footStepParticles.transform.localPosition = new Vector3(footStepParticles.transform.localPosition.x*-1, footStepParticles.transform.localPosition.y, footStepParticles.transform.localPosition.z);
+        swordStrikeParticles.transform.localPosition = new Vector3(swordStrikeParticles.transform.localPosition.x*-1, swordStrikeParticles.transform.localPosition.y, swordStrikeParticles.transform.localPosition.z);
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
@@ -240,5 +257,13 @@ public class PlayerMovementScript : MonoBehaviour
         }else{
             myRidgidBody.linearVelocityX = -horizontalMovementSpeed * dashSpeedMultiple;
         }
+    }
+
+    private void playFootParticles(){
+        footParticleScript.playFootstepEffect();
+    }
+
+    private void playSwordStrikeParticles(){
+        swordAttackParticlesScript.playSwordStrikeParticleEffect();
     }
 }
