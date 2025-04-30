@@ -2,21 +2,24 @@ using UnityEngine;
 
 public class Mushroom : MonoBehaviour
 {
-    // Updated stats for the Mushroom enemy
-    public int maxHealth = 80;          // Mushroom has moderate health
+    public int maxHealth = 80;
     private int currentHealth;
-    public int attackDamage = 8;        // Lower attack damage
-    public int defense = 4;             // Slightly higher defense
-    public float movementSpeed = 1.5f;  // Slower movement speed
-    public float detectionRange = 3.0f; // Shorter detection range
-    public float attackRange = 1.0f;    // Shorter attack range
-    public float attackCooldown = 2.0f; // Slower attack cooldown
+    public int attackDamage = 8;
+    public int defense = 4;
+    public float movementSpeed = 1.5f;
+    public float detectionRange = 3.0f;
+    public float attackRange = 1.0f;
+    public float attackCooldown = 2.0f;
+
+    public GameObject projectilePrefab;
+    public Transform projectileSpawnPoint;
+    public float projectileSpeed = 5f;
 
     private float lastAttackTime;
     private bool isAttacking = false;
     private bool isTakingDamage = false;
     private bool isDead = false;
-    private bool isPlayerNearby = false;  // Ensures the mushroom only attacks when the player is in range
+    private bool isPlayerNearby = false;
 
     private Transform player;
     private PlayerMovementScript playerMovement;
@@ -24,9 +27,9 @@ public class Mushroom : MonoBehaviour
     private Vector3 initialPosition;
     private Rigidbody2D rb;
     private Animator animator;
-    private PolygonCollider2D attackCollider;    // Mushroom's attack collider
-    private PolygonCollider2D detectionCollider;   // Detection area collider
-    private PolygonCollider2D playerAttackCollider; // Player's attack collider
+    private PolygonCollider2D attackCollider;
+    private PolygonCollider2D detectionCollider;
+    private PolygonCollider2D playerAttackCollider;
 
     void Start()
     {
@@ -35,33 +38,17 @@ public class Mushroom : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        // Get attack and detection colliders
         PolygonCollider2D[] colliders = GetComponents<PolygonCollider2D>();
         foreach (PolygonCollider2D collider in colliders)
         {
             if (collider.isTrigger)
-                detectionCollider = collider; // Set as detection area
+                detectionCollider = collider;
             else
-                attackCollider = collider; // Set as attack collider
+                attackCollider = collider;
         }
 
-        if (attackCollider != null)
-        {
-            attackCollider.enabled = false;
-        }
-        else
-        {
-            Debug.LogError("Mushroom attack collider not found!");
-        }
-
-        if (detectionCollider == null)
-        {
-            Debug.LogError("Mushroom detection collider not found!");
-        }
-        else
-        {
-            detectionCollider.isTrigger = true; // Ensure detection collider is a trigger
-        }
+        if (attackCollider != null) attackCollider.enabled = false;
+        if (detectionCollider != null) detectionCollider.isTrigger = true;
 
         GameObject playerObj = GameObject.Find("Player");
         if (playerObj != null)
@@ -71,12 +58,7 @@ public class Mushroom : MonoBehaviour
             playerInfo = playerObj.GetComponent<PlayerInformationScript>();
             playerAttackCollider = playerMovement.closeRangeAttackCollider;
         }
-        else
-        {
-            Debug.LogError("Player GameObject not found!");
-        }
 
-        // Prevent the mushroom from being pushed by the player
         if (rb != null)
         {
             rb.freezeRotation = true;
@@ -86,11 +68,10 @@ public class Mushroom : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isDead) return; // Stop all logic if dead
+        if (isDead) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        // Detect player when they're within the detection range
         if (distanceToPlayer <= detectionRange)
         {
             isPlayerNearby = true;
@@ -102,7 +83,6 @@ public class Mushroom : MonoBehaviour
             animator.SetBool("isWalking", false);
         }
 
-        // Attack when player is close enough
         if (isPlayerNearby && distanceToPlayer <= attackRange && !isAttacking)
         {
             AttackPlayer();
@@ -111,30 +91,23 @@ public class Mushroom : MonoBehaviour
 
     private void AttackPlayer()
     {
-        if (isDead || isAttacking) return; // Attack only if alive and not already attacking
+        if (isDead || isAttacking) return;
 
         isAttacking = true;
         lastAttackTime = Time.time;
         animator.SetTrigger("attack");
 
-        Invoke(nameof(EnableAttackCollider), 0.2f); // Enable attack collider during the attack animation
-        Invoke(nameof(DisableAttackCollider), 0.5f); // Disable it shortly after
+        Invoke(nameof(FireProjectile), 0.3f);
         Invoke(nameof(ResetAttack), attackCooldown);
     }
 
-    private void EnableAttackCollider()
+    private void FireProjectile()
     {
-        if (attackCollider != null)
+        if (projectilePrefab != null && projectileSpawnPoint != null && player != null)
         {
-            attackCollider.enabled = true;
-        }
-    }
-
-    private void DisableAttackCollider()
-    {
-        if (attackCollider != null)
-        {
-            attackCollider.enabled = false;
+            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
+            Vector2 direction = (player.position - transform.position).normalized;
+            projectile.GetComponent<Rigidbody2D>().linearVelocity = direction * projectileSpeed;
         }
     }
 
@@ -149,14 +122,13 @@ public class Mushroom : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Lava"))
         {
-            Debug.Log("Mushroom fell into lava!");
-            Die(); // Kill mushroom when it touches lava
+            Die();
         }
         else if (collision == playerAttackCollider && playerMovement.isAttacking)
         {
             if (playerInfo != null)
             {
-                TakeDamage((int)playerInfo.getAttackDamage()); // Take damage only if player is attacking
+                TakeDamage((int)playerInfo.getAttackDamage());
             }
         }
         else if (collision.CompareTag("Player") && attackCollider.enabled)
@@ -171,7 +143,7 @@ public class Mushroom : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (isDead) return; // Prevent damage after death
+        if (isDead) return;
 
         int finalDamage = Mathf.Max(damage - defense, 0);
         currentHealth -= finalDamage;
@@ -204,7 +176,6 @@ public class Mushroom : MonoBehaviour
             Vector3 targetPosition = new Vector3(player.position.x, transform.position.y, transform.position.z);
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
 
-            // Flip direction based on player position
             if ((player.position.x < transform.position.x && transform.localScale.x > 0) ||
                 (player.position.x > transform.position.x && transform.localScale.x < 0))
             {
@@ -220,8 +191,6 @@ public class Mushroom : MonoBehaviour
 
         isDead = true;
         animator.SetTrigger("die");
-        Debug.Log("Mushroom has died.");
-
         animator.SetBool("isWalking", false);
         animator.ResetTrigger("attack");
 

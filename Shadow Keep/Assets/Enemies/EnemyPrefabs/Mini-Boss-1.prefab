@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 350
-  attackDamage: 34
+  attackDamage: 30
   defense: 10
   movementSpeed: 2
   detectionRange: 6
@@ -383,7 +383,7 @@ MonoBehaviour:
   attackCooldown: 1
   spellCooldown: 7
   spellHealthBoost: 100
-  spellDamageBoost: 20
+  spellDamageBoost: 10
 --- !u!95 &5969536229841071291
 Animator:
   serializedVersion: 7
