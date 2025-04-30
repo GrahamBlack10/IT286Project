@@ -6,7 +6,7 @@ public class cameraScript : MonoBehaviour
 {
     Camera mainCamera;
     GameObject player;
-    public float cameraShakeDuration = 0.5f;
+    public float cameraShakeDuration = 2f;
     public float cameraShakeMagnitude = 1f;
     private float cameraShakeCounter = 0;
     private bool isCameraShaking = false;
