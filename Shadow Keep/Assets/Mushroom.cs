@@ -107,7 +107,8 @@ public class Mushroom : MonoBehaviour
     {
         if (projectilePrefab != null && projectileSpawnPoint != null && player != null)
         {
-            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
+            GameObject projectile = Instantiate(projectilePrefab, transform);
+            projectile.transform.localPosition = projectileSpawnPoint.position;
             Vector2 direction = (player.position - transform.position).normalized;
             projectile.GetComponent<Rigidbody2D>().linearVelocity = direction * projectileSpeed;
         }
