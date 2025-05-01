@@ -26,7 +26,7 @@ public class Evil_Wizard : MonoBehaviour
 
     // Summoning
     public GameObject mushroomPrefab;
-    public float summonCooldown = 12f;
+    public float summonCooldown = 10f;
     private float lastSummonTime = 0f;
 
     private float lastAttackTime;
@@ -113,7 +113,7 @@ public class Evil_Wizard : MonoBehaviour
             HealAndBuff();
         }
 
-        if (Time.time >= lastSummonTime + summonCooldown && !isAttacking)
+        if (Time.time >= lastSummonTime + summonCooldown && !isAttacking && isPlayerNearby)
         {
             SummonMushroom();
         }

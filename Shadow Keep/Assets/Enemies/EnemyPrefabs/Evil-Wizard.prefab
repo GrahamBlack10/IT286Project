@@ -109,8 +109,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 400
-  attackDamage: 35
-  baseAttackDamage: 35
+  attackDamage: 20
+  baseAttackDamage: 20
   defense: 8
   movementSpeed: 2.5
   detectionRange: 7
@@ -121,7 +121,7 @@ MonoBehaviour:
   deathAnimationDuration: 3
   healCooldown: 7
   mushroomPrefab: {fileID: 8386402570618599815, guid: 3fcc65bc15c95ca4c8fda4887bf87e58, type: 3}
-  summonCooldown: 20
+  summonCooldown: 10
 --- !u!61 &2861489631206672196
 BoxCollider2D:
   m_ObjectHideFlags: 0
