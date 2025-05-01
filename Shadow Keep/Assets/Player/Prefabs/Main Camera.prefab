@@ -151,4 +151,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraShakeDuration: 0.5
-  cameraShakeMagnitude: 0.05
+  cameraShakeMagnitude: 0.2
