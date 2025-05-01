@@ -27,12 +27,15 @@ public class FlyingEye : MonoBehaviour
     private PolygonCollider2D detectionCollider;
     private PolygonCollider2D playerAttackCollider;
 
+    private EnemyAudio audioManager;
+
     void Start()
     {
         currentHealth = maxHealth;
         initialPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioManager = GetComponent<EnemyAudio>();
 
         // Disable gravity so the enemy floats
         if (rb != null)
@@ -184,6 +187,7 @@ public class FlyingEye : MonoBehaviour
         Invoke(nameof(EnableAttackCollider), 0.2f);
         Invoke(nameof(DisableAttackCollider), 0.5f);
         Invoke(nameof(ResetAttack), attackCooldown);
+        audioManager.PlayAttack();
     }
 
     private void EnableAttackCollider()
@@ -245,6 +249,7 @@ public class FlyingEye : MonoBehaviour
         {
             isTakingDamage = true;
             animator.SetBool("takeDamage", true);
+            audioManager.PlayHurt();
             Invoke(nameof(ResetTakingDamage), 0.3f);
         }
 

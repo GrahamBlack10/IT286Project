@@ -30,6 +30,7 @@ public class Mushroom : MonoBehaviour
     private PolygonCollider2D attackCollider;
     private PolygonCollider2D detectionCollider;
     private PolygonCollider2D playerAttackCollider;
+    private EnemyAudio audioManager;
 
     void Start()
     {
@@ -37,6 +38,7 @@ public class Mushroom : MonoBehaviour
         initialPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioManager = GetComponent<EnemyAudio>();
 
         PolygonCollider2D[] colliders = GetComponents<PolygonCollider2D>();
         foreach (PolygonCollider2D collider in colliders)
@@ -96,7 +98,7 @@ public class Mushroom : MonoBehaviour
         isAttacking = true;
         lastAttackTime = Time.time;
         animator.SetTrigger("attack");
-
+        audioManager.PlayAttack();
         Invoke(nameof(FireProjectile), 0.3f);
         Invoke(nameof(ResetAttack), attackCooldown);
     }
@@ -153,6 +155,7 @@ public class Mushroom : MonoBehaviour
         {
             isTakingDamage = true;
             animator.SetBool("takeDamage", true);
+             audioManager.PlayHurt();
             Invoke(nameof(ResetTakingDamage), 0.3f);
         }
 

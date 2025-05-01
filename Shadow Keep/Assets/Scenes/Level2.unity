@@ -15315,6 +15315,10 @@ PrefabInstance:
       propertyPath: attackDamage
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: -4549184026087149613, guid: a881b16796a22f841b63628151fedf95, type: 3}
+      propertyPath: summonCooldown
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7260075987687509591, guid: a881b16796a22f841b63628151fedf95, type: 3}
       propertyPath: m_LocalPosition.x
       value: 76.32725
