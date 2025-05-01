@@ -3,7 +3,7 @@ using UnityEngine;
 public class Mini_Boss_3 : MonoBehaviour
 {
     // Core Stats (less challenging than Fallen_Hero)
-    public int maxHealth = 1000;
+    public int maxHealth = 450;
     private int currentHealth;
     public int attackDamage = 35;
     public int baseAttackDamage = 35;
@@ -24,7 +24,7 @@ public class Mini_Boss_3 : MonoBehaviour
 
     // Special Ability: Summon Minions
     public GameObject skeletonPrefab;
-    public int minionsToSummon = 2;
+    public int minionsToSummon = 3;
     public float summonCooldown = 10.0f;
     private float lastSummonTime = 0f;
 

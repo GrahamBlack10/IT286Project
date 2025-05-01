@@ -107,10 +107,10 @@ public class Fallen_Hero : MonoBehaviour
                 animator.SetBool("isWalking", false);
         }
 
-        if (IsGrounded() && !isAttacking && distanceToPlayer > attackRange && Time.time >= lastJumpTime + jumpCooldown)
-        {
-            Jump();
-        }
+     //   if (IsGrounded() && !isAttacking && distanceToPlayer > attackRange && Time.time >= lastJumpTime + jumpCooldown)
+     //   {
+     //       Jump();
+     //   }
 
         if (isPlayerNearby && distanceToPlayer <= attackRange && !isAttacking)
         {
@@ -199,15 +199,15 @@ public class Fallen_Hero : MonoBehaviour
         Debug.Log("Fallen-Hero healed and gained bonus damage!");
     }
 
-    private void Jump()
-    {
-        if (isDead || rb == null) return;
+//    private void Jump()
+//    {
+//        if (isDead || rb == null) return;
 
-        lastJumpTime = Time.time;
-        animator.SetTrigger("jump");
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        Debug.Log("Fallen-Hero jumped!");
-    }
+//        lastJumpTime = Time.time;
+ //       animator.SetTrigger("jump");
+ //       rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+ //       Debug.Log("Fallen-Hero jumped!");
+ //   }
 
     private void EnableAttackCollider()
     {
