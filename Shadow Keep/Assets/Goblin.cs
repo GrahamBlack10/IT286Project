@@ -18,6 +18,8 @@ public class Goblin : MonoBehaviour
     private bool isDead = false;
     private bool isPlayerNearby = false;  // Ensures the goblin only attacks when the player is in range
 
+    private EnemyAudio audioManager;
+
     private Transform player;
     private PlayerMovementScript playerMovement;
     private PlayerInformationScript playerInfo;
@@ -34,6 +36,7 @@ public class Goblin : MonoBehaviour
         initialPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioManager = GetComponent<EnemyAudio>();
 
         // Get attack and detection colliders
         PolygonCollider2D[] colliders = GetComponents<PolygonCollider2D>();
@@ -120,6 +123,7 @@ public class Goblin : MonoBehaviour
         Invoke(nameof(EnableAttackCollider), 0.2f); // Enable attack collider during the attack animation
         Invoke(nameof(DisableAttackCollider), 0.5f); // Disable it shortly after
         Invoke(nameof(ResetAttack), attackCooldown);
+        audioManager.PlayAttack();
     }
 
     private void EnableAttackCollider()
@@ -181,6 +185,7 @@ public class Goblin : MonoBehaviour
         {
             isTakingDamage = true;
             animator.SetBool("takeDamage", true);
+            audioManager.PlayHurt();
             Invoke(nameof(ResetTakingDamage), 0.3f);
         }
 

@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 4059412261980542816}
   - component: {fileID: 4797918333367921524}
   - component: {fileID: 4924278301235512312}
+  - component: {fileID: 7892347849837107405}
+  - component: {fileID: 3943005746394523440}
   m_Layer: 3
   m_Name: Fallen Hero
   m_TagString: Enemy
@@ -236,6 +238,7 @@ PolygonCollider2D:
       - {x: -0.26, y: -0.21}
       - {x: -0.21, y: -0.24}
       - {x: 0.43427026, y: -0.3316842}
+      - {x: 0.58452207, y: -0.3295631}
       - {x: 0.5257704, y: -0.03148043}
       - {x: 0.52646613, y: 0.12261987}
       - {x: 0.13, y: 0.13}
@@ -286,8 +289,8 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.2767695, y: 0.11887722}
-      - {x: 0.28829396, y: 0.20358285}
+    - - {x: 0.5300934, y: 0.19351964}
+      - {x: 0.5316837, y: 0.26066235}
       - {x: -0.01, y: 0.32}
       - {x: -0.08, y: 0.32}
       - {x: -0.11, y: 0.29999998}
@@ -299,7 +302,7 @@ PolygonCollider2D:
       - {x: -0.26, y: -0.13}
       - {x: -0.26, y: -0.21}
       - {x: -0.21, y: -0.24}
-      - {x: 0.43042907, y: -0.3316841}
+      - {x: 0.5794431, y: -0.34924692}
       - {x: 0.5296581, y: -0.19338578}
       - {x: 0.53414893, y: -0.060748525}
       - {x: 0.5256736, y: 0.13}
@@ -366,7 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 500
-  attackDamage: 20
+  attackDamage: 30
   baseAttackDamage: 10
   defense: 10
   movementSpeed: 2
@@ -375,8 +378,122 @@ MonoBehaviour:
   attackCooldown: 2.5
   deathAnimationDuration: 2
   jumpForce: 8
-  jumpCooldown: 5
-  invisStrikeCooldown: 7
+  jumpCooldown: 4
+  invisStrikeCooldown: 6
   selfHealCooldown: 5
   healAmount: 200
-  bonusDamageDuration: 5
+  bonusDamageDuration: 10
+--- !u!82 &7892347849837107405
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8392499594135789676}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &3943005746394523440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8392499594135789676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 175f0187b352dbf419ccb0d9f7618d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 7892347849837107405}
+  attackClip: {fileID: 8300000, guid: 355bdf04d89994e1ba744510f36ef080, type: 3}
+  hurtClip: {fileID: 8300000, guid: 29f32cb317e9b4731a930ac9cad5b6ca, type: 3}
+  deathClip: {fileID: 0}
+  specialClip: {fileID: 8300000, guid: f5d7cb96ae6ef4ea6b13a810224f9c7f, type: 3}

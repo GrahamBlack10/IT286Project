@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Evil_Wizard : MonoBehaviour
 {
+    private EnemyAudio audioManager;
     public int maxHealth = 700;
     private int currentHealth;
     public int attackDamage = 35;
@@ -25,7 +26,7 @@ public class Evil_Wizard : MonoBehaviour
 
     // Summoning
     public GameObject mushroomPrefab;
-    public float summonCooldown = 12f;
+    public float summonCooldown = 10f;
     private float lastSummonTime = 0f;
 
     private float lastAttackTime;
@@ -47,7 +48,7 @@ public class Evil_Wizard : MonoBehaviour
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
+        audioManager = GetComponent<EnemyAudio>();
         PolygonCollider2D[] colliders = GetComponents<PolygonCollider2D>();
         foreach (PolygonCollider2D collider in colliders)
         {
@@ -112,7 +113,7 @@ public class Evil_Wizard : MonoBehaviour
             HealAndBuff();
         }
 
-        if (Time.time >= lastSummonTime + summonCooldown && !isAttacking)
+        if (Time.time >= lastSummonTime + summonCooldown && !isAttacking && isPlayerNearby)
         {
             SummonMushroom();
         }
@@ -143,6 +144,7 @@ public class Evil_Wizard : MonoBehaviour
         Invoke(nameof(EnableAttackCollider), 0.2f);
         Invoke(nameof(DisableAttackCollider), 0.5f);
         Invoke(nameof(ResetAttack), attackCooldown);
+          audioManager.PlayAttack();
     }
 
     private void HealAndBuff()
@@ -228,6 +230,8 @@ public class Evil_Wizard : MonoBehaviour
         int finalDamage = Mathf.Max(damage - defense, 0);
         currentHealth -= finalDamage;
         Debug.Log($"Evil-Wizard took {finalDamage} damage, remaining health: {currentHealth}");
+
+         audioManager.PlayHurt();
 
         if (currentHealth <= 0)
             Die();

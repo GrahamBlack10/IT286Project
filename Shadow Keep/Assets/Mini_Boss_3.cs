@@ -3,7 +3,7 @@ using UnityEngine;
 public class Mini_Boss_3 : MonoBehaviour
 {
     // Core Stats (less challenging than Fallen_Hero)
-    public int maxHealth = 1000;
+    public int maxHealth = 450;
     private int currentHealth;
     public int attackDamage = 35;
     public int baseAttackDamage = 35;
@@ -24,7 +24,7 @@ public class Mini_Boss_3 : MonoBehaviour
 
     // Special Ability: Summon Minions
     public GameObject skeletonPrefab;
-    public int minionsToSummon = 2;
+    public int minionsToSummon = 3;
     public float summonCooldown = 10.0f;
     private float lastSummonTime = 0f;
 
@@ -42,11 +42,14 @@ public class Mini_Boss_3 : MonoBehaviour
     private PolygonCollider2D detectionCollider;
     private PolygonCollider2D playerAttackCollider;
 
+    private EnemyAudio audioManager;
+
     void Start()
     {
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioManager = GetComponent<EnemyAudio>();
 
         PolygonCollider2D[] colliders = GetComponents<PolygonCollider2D>();
         foreach (PolygonCollider2D collider in colliders)
@@ -143,6 +146,7 @@ public class Mini_Boss_3 : MonoBehaviour
         lastAttackTime = Time.time;
         animator.SetTrigger("attack");
         Debug.Log("Mini_Boss_3 attacked the player!");
+        audioManager.PlayAttack();
 
         Invoke(nameof(EnableAttackCollider), 0.2f);
         Invoke(nameof(DisableAttackCollider), 0.5f);
@@ -284,6 +288,7 @@ public class Mini_Boss_3 : MonoBehaviour
         int finalDamage = Mathf.Max(damage - defense, 0);
         currentHealth -= finalDamage;
         Debug.Log($"Mini_Boss_3 took {finalDamage} damage, remaining health: {currentHealth}");
+        audioManager.PlayHurt();
 
         animator.SetBool("takeDamage", true);
         Invoke(nameof(ResetTakeDamage), 0.3f);

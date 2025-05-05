@@ -3,6 +3,7 @@ using UnityEngine;
 public class Fallen_Hero : MonoBehaviour
 {
     // Core Stats
+    private EnemyAudio audioManager;
     public int maxHealth = 1500;
     private int currentHealth;
     public int attackDamage = 50;
@@ -50,6 +51,7 @@ public class Fallen_Hero : MonoBehaviour
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioManager = GetComponent<EnemyAudio>();
 
         PolygonCollider2D[] colliders = GetComponents<PolygonCollider2D>();
         foreach (PolygonCollider2D collider in colliders)
@@ -105,10 +107,10 @@ public class Fallen_Hero : MonoBehaviour
                 animator.SetBool("isWalking", false);
         }
 
-        if (IsGrounded() && !isAttacking && distanceToPlayer > attackRange && Time.time >= lastJumpTime + jumpCooldown)
-        {
-            Jump();
-        }
+     //   if (IsGrounded() && !isAttacking && distanceToPlayer > attackRange && Time.time >= lastJumpTime + jumpCooldown)
+     //   {
+     //       Jump();
+     //   }
 
         if (isPlayerNearby && distanceToPlayer <= attackRange && !isAttacking)
         {
@@ -148,6 +150,7 @@ public class Fallen_Hero : MonoBehaviour
         Invoke(nameof(EnableAttackCollider), 0.2f);
         Invoke(nameof(DisableAttackCollider), 0.5f);
         Invoke(nameof(ResetAttack), attackCooldown);
+        audioManager.PlayAttack();
     }
 
     private void InvisibilityStrike()
@@ -182,6 +185,7 @@ public class Fallen_Hero : MonoBehaviour
         Invoke(nameof(EnableAttackCollider), 0.1f);
         Invoke(nameof(DisableAttackCollider), 0.3f);
         Invoke(nameof(ResetAttack), attackCooldown);
+        audioManager.PlayAttack();
     }
 
     private void HealAndBuff()
@@ -195,15 +199,15 @@ public class Fallen_Hero : MonoBehaviour
         Debug.Log("Fallen-Hero healed and gained bonus damage!");
     }
 
-    private void Jump()
-    {
-        if (isDead || rb == null) return;
+//    private void Jump()
+//    {
+//        if (isDead || rb == null) return;
 
-        lastJumpTime = Time.time;
-        animator.SetTrigger("jump");
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        Debug.Log("Fallen-Hero jumped!");
-    }
+//        lastJumpTime = Time.time;
+ //       animator.SetTrigger("jump");
+ //       rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+ //       Debug.Log("Fallen-Hero jumped!");
+ //   }
 
     private void EnableAttackCollider()
     {
@@ -259,6 +263,7 @@ public class Fallen_Hero : MonoBehaviour
         Debug.Log($"Fallen-Hero took {finalDamage} damage, remaining health: {currentHealth}");
 
         animator.SetBool("takeDamage", true);
+        audioManager.PlayHurt();
         Invoke(nameof(ResetTakeDamage), 0.3f);
 
         if (currentHealth <= 0)
